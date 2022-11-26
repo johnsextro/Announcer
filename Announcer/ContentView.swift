@@ -15,71 +15,77 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
-
+    struct Person: Identifiable {
+        let givenName: String
+        let familyName: String
+        var jerseyNumber: String
+        let id = UUID()
+        var personalFouls: Int
+        var fullName: String {
+            get{("\(givenName) \(familyName)")}
+        }
+    }
+    @State private var homeTeam = [
+        Person(givenName: "Juan", familyName: "Chavez", jerseyNumber: "5", personalFouls: 0),
+        Person(givenName: "Mei", familyName: "Chen", jerseyNumber: "15", personalFouls: 0),
+        Person(givenName: "Tom", familyName: "Clark", jerseyNumber: "20", personalFouls: 0),
+        Person(givenName: "Gita", familyName: "Kumar", jerseyNumber: "25", personalFouls: 0)
+    ]
+    @State private var visitingTeam = [
+        Person(givenName: "Kate", familyName: "Rolfes", jerseyNumber: "23", personalFouls: 0),
+        Person(givenName: "Emily", familyName: "Wilson", jerseyNumber: "35", personalFouls: 0),
+        Person(givenName: "Julie", familyName: "Baudendistel", jerseyNumber: "15", personalFouls: 0),
+        Person(givenName: "Claire", familyName: "Williams", jerseyNumber: "2", personalFouls: 0)
+    ]
+    
+    @State private var sortOrder = [KeyPathComparator(\Person.jerseyNumber)]
+    @State private var selection: Person.ID?
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+            VStack() {
+                HStack() {
+                    Text("Home")
+                    Button("Foul") {
+                        if let unwrapped = selection {
+                            for index in 0..<visitingTeam.count {
+                                if visitingTeam[index].id == unwrapped {
+                                    visitingTeam[index].personalFouls+=1
+                                }
+                            }
+                        } else {
+                            print("Missing name.")
+                        }
+//
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                HStack (alignment: .bottom, spacing: 10){
+                    
+                    Table(homeTeam, selection: $selection, sortOrder: $sortOrder) {
+                        TableColumn("##", value:\.jerseyNumber).width(45)
+                        TableColumn("Name", value: \.fullName)
+                        TableColumn("PF") { homeTeam in
+                            Text(String(homeTeam.personalFouls))
+                        }.width(35)
+                        
+                    }
+                    .onChange(of: sortOrder) { newOrder in
+                        homeTeam.sort(using: newOrder)
+                    }
+                    
+                    Table(visitingTeam, selection: $selection, sortOrder: $sortOrder) {
+                        TableColumn("##", value:\.jerseyNumber).width(45)
+                        TableColumn("Name", value: \.fullName)
+                        TableColumn("PF") { visitingTeam in
+                            Text(String(visitingTeam.personalFouls))
+                        }.width(35)
+                    }
+                    .onChange(of: sortOrder) { newOrder in
+                        visitingTeam.sort(using: newOrder)
                     }
                 }
             }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
