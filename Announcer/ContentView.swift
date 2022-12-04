@@ -42,36 +42,20 @@ struct ContentView: View {
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var selection: Person.ID?
     
-    fileprivate func createPlayerTable(players: inout [Person], sortOrder: Binding<[KeyPathComparator<ContentView.Person>]>) -> some View {
-        return Table(players, selection: $selection, sortOrder: sortOrder) {
-            TableColumn("##", value:\.jerseyNumber).width(45)
-            TableColumn("Name", value: \.fullName)
-            TableColumn("PF") { players in
-                Text(String(players.personalFouls))
-            }.width(35)
-            
-        }
-    }
-    
     var body: some View {
-        var homeTable = Table(homeTeam, selection: $selection, sortOrder: $homeSortOrder) {
-            TableColumn("##", value:\.jerseyNumber).width(45)
+        var homeTable: Table = Table(homeTeam, selection: $selection, sortOrder: $homeSortOrder) {
+            TableColumn("##", value: \.jerseyNumber).width(45)
             TableColumn("Name", value: \.fullName)
-            TableColumn("PF") { homeTeam in
-                Text(String(homeTeam.personalFouls))
+            TableColumn("PF") { homeTeam in Text(String(homeTeam.personalFouls))
             }.width(35)
-        }.onChange(of: homeSortOrder) { newOrder in
-            homeTeam.sort(using: newOrder)
         }
         
-        var guestTable = Table(guestTeam, selection: $selection, sortOrder: $guestSortOrder) {
+        var guestTable: Table = Table(guestTeam, selection: $selection, sortOrder: $guestSortOrder) {
             TableColumn("##", value:\.jerseyNumber).width(45)
             TableColumn("Name", value: \.fullName)
-            TableColumn("PF") { visitingTeam in
-                Text(String(visitingTeam.personalFouls))
+            TableColumn("PF") { guestTeam in
+                Text(String(guestTeam.personalFouls))
             }.width(35)
-        }.onChange(of: guestSortOrder) { newOrder in
-            guestTeam.sort(using: newOrder)
         }
         
             VStack() {
@@ -81,6 +65,8 @@ struct ContentView: View {
                         if let unwrapped = selection {
                             for index in 0..<guestTeam.count {
                                 if guestTeam[index].id == unwrapped {
+                                    selection = nil
+                                    
                                     guestTeam[index].personalFouls+=1
                                 }
                             }
@@ -88,8 +74,12 @@ struct ContentView: View {
                     }
                 }
                 HStack (alignment: .bottom, spacing: 10){
-                    homeTable
-                    guestTable
+                    homeTable.onChange(of: homeSortOrder) { newOrder in
+                        homeTeam.sort(using: newOrder)
+                    }
+                    guestTable.onChange(of: guestSortOrder) { newOrder in
+                        guestTeam.sort(using: newOrder)
+                    }
                 }
             }
     }
