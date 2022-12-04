@@ -41,6 +41,17 @@ struct ContentView: View {
     @State private var sortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var selection: Person.ID?
     
+    fileprivate func homeTable(players: inout [Person]) -> some View {
+        return Table(players, selection: $selection, sortOrder: $sortOrder) {
+            TableColumn("##", value:\.jerseyNumber).width(45)
+            TableColumn("Name", value: \.fullName)
+            TableColumn("PF") { players in
+                Text(String(players.personalFouls))
+            }.width(35)
+            
+        }
+    }
+    
     var body: some View {
             VStack() {
                 HStack() {
@@ -52,23 +63,12 @@ struct ContentView: View {
                                     visitingTeam[index].personalFouls+=1
                                 }
                             }
-                        } else {
-                            print("Missing name.")
                         }
-//
                     }
                 }
                 HStack (alignment: .bottom, spacing: 10){
                     
-                    Table(homeTeam, selection: $selection, sortOrder: $sortOrder) {
-                        TableColumn("##", value:\.jerseyNumber).width(45)
-                        TableColumn("Name", value: \.fullName)
-                        TableColumn("PF") { homeTeam in
-                            Text(String(homeTeam.personalFouls))
-                        }.width(35)
-                        
-                    }
-                    .onChange(of: sortOrder) { newOrder in
+                    homeTable(players: &homeTeam).onChange(of: sortOrder) { newOrder in
                         homeTeam.sort(using: newOrder)
                     }
                     
