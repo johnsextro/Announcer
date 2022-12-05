@@ -41,15 +41,19 @@ struct ContentView: View {
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     
+    fileprivate func createPlayerHeader() -> some View {
+        return HStack (alignment: .top) {
+            Text("##").frame(width: 45)
+            Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
+            Text("PF").frame(width: 45)
+        }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack (alignment: .top, spacing: 10){
                 VStack (alignment: .leading) {
-                    HStack (alignment: .top) {
-                        Text("##").frame(width: 45)
-                        Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
-                        Text("PF").frame(width: 45)
-                    }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
+                    createPlayerHeader()
                     
                     ForEach(homeTeam.sorted(using: homeSortOrder)) { team in
                         HStack () {
@@ -69,11 +73,7 @@ struct ContentView: View {
                     }
                 }
                 VStack (alignment: .leading) {
-                    HStack (alignment: .top) {
-                        Text("##").frame(width: 45)
-                        Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
-                        Text("PF").frame(width: 45)
-                    }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
+                    createPlayerHeader()
                     
                     ForEach(guestTeam.sorted(using: guestSortOrder)) { team in
                         HStack () {
