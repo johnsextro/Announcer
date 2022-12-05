@@ -49,47 +49,44 @@ struct ContentView: View {
         }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
     }
     
+    fileprivate func createPlayerRow(_ player: ContentView.Person) -> some View {
+        return HStack () {
+            Text(player.jerseyNumber).frame(width: 45)
+            Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
+        }.padding(Edge.Set.Element.all, 5)
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack (alignment: .top, spacing: 10){
                 VStack (alignment: .leading) {
                     createPlayerHeader()
-                    
-                    ForEach(homeTeam.sorted(using: homeSortOrder)) { team in
-                        HStack () {
-                            Text(team.jerseyNumber).frame(width: 45)
-                            Text(team.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
-                            Text(String(team.personalFouls)).frame(width: 45).onTapGesture {
-                                withAnimation (.easeIn(duration: 0.3)) {
-                                    for index in 0..<homeTeam.count {
-                                        if homeTeam[index].id == team.id {
-                                            homeTeam[index].personalFouls+=1
-                                        }
+                    ForEach(homeTeam.sorted(using: homeSortOrder)) { player in
+                        HStack {
+                            createPlayerRow(player)
+                            Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
+                                for index in 0..<homeTeam.count {
+                                    if homeTeam[index].id == player.id {
+                                        homeTeam[index].personalFouls+=1
                                     }
                                 }
                             }
-                        }.padding(Edge.Set.Element.all, 5)
-                                                                      
+                        }
                     }
                 }
                 VStack (alignment: .leading) {
                     createPlayerHeader()
-                    
-                    ForEach(guestTeam.sorted(using: guestSortOrder)) { team in
-                        HStack () {
-                            Text(team.jerseyNumber).frame(width: 45)
-                            Text(team.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
-                            Text(String(team.personalFouls)).frame(width: 45).onTapGesture {
-                                withAnimation (.easeIn(duration: 0.3)) {
-                                    for index in 0..<guestTeam.count {
-                                        if guestTeam[index].id == team.id {
-                                            guestTeam[index].personalFouls+=1
-                                        }
+                    ForEach(guestTeam.sorted(using: guestSortOrder)) { player in
+                        HStack {
+                            createPlayerRow(player)
+                            Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
+                                for index in 0..<guestTeam.count {
+                                    if guestTeam[index].id == player.id {
+                                        guestTeam[index].personalFouls+=1
                                     }
                                 }
                             }
-                        }.padding(Edge.Set.Element.all, 5)
-                                                                      
+                        }
                     }
                 }
             }
