@@ -83,7 +83,8 @@ struct ContentView: View {
                             Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
                             Text("PF").frame(width: 45)
                         }.padding(Edge.Set.Element.all, 5)
-                        ForEach(guestTeam) { team in
+                        
+                        ForEach(guestTeam.sorted(using: guestSortOrder)) { team in
                             HStack () {
                                 Text(team.jerseyNumber).frame(width: 45)
                                 Text(team.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
