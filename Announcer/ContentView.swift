@@ -50,13 +50,13 @@ struct ContentView: View {
             }.width(35)
         }
         
-        var guestTable: Table = Table(guestTeam, selection: $selection, sortOrder: $guestSortOrder) {
-            TableColumn("##", value:\.jerseyNumber).width(45)
-            TableColumn("Name", value: \.fullName)
-            TableColumn("PF") { guestTeam in
-                Text(String(guestTeam.personalFouls))
-            }.width(35)
-        }
+//        var guestTable: Table = Table(guestTeam, selection: $selection, sortOrder: $guestSortOrder) {
+//            TableColumn("##", value:\.jerseyNumber).width(45)
+//            TableColumn("Name", value: \.fullName)
+//            TableColumn("PF") { guestTeam in
+//                Text(String(guestTeam.personalFouls))
+//            }.width(35)
+//        }
         
             VStack() {
                 HStack() {
@@ -73,12 +73,23 @@ struct ContentView: View {
                         }
                     }
                 }
-                HStack (alignment: .bottom, spacing: 10){
+                HStack (alignment: .top, spacing: 10){
                     homeTable.onChange(of: homeSortOrder) { newOrder in
                         homeTeam.sort(using: newOrder)
                     }
-                    guestTable.onChange(of: guestSortOrder) { newOrder in
-                        guestTeam.sort(using: newOrder)
+                    VStack (alignment: .leading) {
+                        HStack (alignment: .top) {
+                            Text("##").frame(width: 45)
+                            Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
+                            Text("PF").frame(width: 45)
+                        }.padding(Edge.Set.Element.all, 5)
+                        ForEach(guestTeam) { team in
+                            HStack () {
+                                Text(team.jerseyNumber).frame(width: 45)
+                                Text(team.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
+                                Text(String(team.personalFouls)).frame(width: 45)
+                            }.padding(Edge.Set.Element.all, 5)
+                        }
                     }
                 }
             }
