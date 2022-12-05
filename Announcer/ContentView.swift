@@ -42,54 +42,56 @@ struct ContentView: View {
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var selection: Person.ID?
     
-    var body: some View {
-        var homeTable: Table = Table(homeTeam, selection: $selection, sortOrder: $homeSortOrder) {
-            TableColumn("##", value: \.jerseyNumber).width(45)
-            TableColumn("Name", value: \.fullName)
-            TableColumn("PF") { homeTeam in Text(String(homeTeam.personalFouls))
-            }.width(35)
-        }
-        
-//        var guestTable: Table = Table(guestTeam, selection: $selection, sortOrder: $guestSortOrder) {
-//            TableColumn("##", value:\.jerseyNumber).width(45)
-//            TableColumn("Name", value: \.fullName)
-//            TableColumn("PF") { guestTeam in
-//                Text(String(guestTeam.personalFouls))
-//            }.width(35)
-//        }
-        
+    var body: some View {        
             VStack() {
-                HStack() {
-                    Text("Home")
-                    Button("Foul") {
-                        if let unwrapped = selection {
-                            for index in 0..<guestTeam.count {
-                                if guestTeam[index].id == unwrapped {
-                                    selection = nil
-                                    
-                                    guestTeam[index].personalFouls+=1
-                                }
-                            }
-                        }
-                    }
-                }
+
                 HStack (alignment: .top, spacing: 10){
-                    homeTable.onChange(of: homeSortOrder) { newOrder in
-                        homeTeam.sort(using: newOrder)
+                    VStack (alignment: .leading) {
+                        HStack (alignment: .top) {
+                            Text("##").frame(width: 45)
+                            Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
+                            Text("PF").frame(width: 45)
+                        }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
+                        
+                        ForEach(homeTeam.sorted(using: homeSortOrder)) { team in
+                            HStack () {
+                                Text(team.jerseyNumber).frame(width: 45)
+                                Text(team.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
+                                Text(String(team.personalFouls)).frame(width: 45).onTapGesture {
+                                    withAnimation (.easeIn(duration: 0.3)) {
+                                        for index in 0..<homeTeam.count {
+                                            if homeTeam[index].id == team.id {
+                                                homeTeam[index].personalFouls+=1
+                                            }
+                                        }
+                                    }
+                                }
+                            }.padding(Edge.Set.Element.all, 5)
+                                                                          
+                        }
                     }
                     VStack (alignment: .leading) {
                         HStack (alignment: .top) {
                             Text("##").frame(width: 45)
                             Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
                             Text("PF").frame(width: 45)
-                        }.padding(Edge.Set.Element.all, 5)
+                        }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
                         
                         ForEach(guestTeam.sorted(using: guestSortOrder)) { team in
                             HStack () {
                                 Text(team.jerseyNumber).frame(width: 45)
                                 Text(team.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
-                                Text(String(team.personalFouls)).frame(width: 45)
+                                Text(String(team.personalFouls)).frame(width: 45).onTapGesture {
+                                    withAnimation (.easeIn(duration: 0.3)) {
+                                        for index in 0..<guestTeam.count {
+                                            if guestTeam[index].id == team.id {
+                                                guestTeam[index].personalFouls+=1
+                                            }
+                                        }
+                                    }
+                                }
                             }.padding(Edge.Set.Element.all, 5)
+                                                                          
                         }
                     }
                 }
