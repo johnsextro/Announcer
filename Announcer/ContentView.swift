@@ -57,11 +57,11 @@ struct ContentView: View {
         }
     }
     
-    fileprivate func determineRowColor(_ index: inout Int) -> Color {
+    fileprivate func determineRowColorRed(_ index: inout Int) -> Color {
         var rowColor: Color = Color.clear
         index += 1
         if index % 2 == 0 {
-            rowColor = Color.blue
+            rowColor = Color.pink
         }
         return rowColor
         
@@ -86,7 +86,7 @@ struct ContentView: View {
                     Divider()
                     ForEach(homeTeam.sorted(using: homeSortOrder)) { player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColor(&rowCount)).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColorRed(&rowCount)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
                                 createPlayerRow(player)
                                 Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
