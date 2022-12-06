@@ -10,7 +10,7 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
+    
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
@@ -40,6 +40,7 @@ struct ContentView: View {
     
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
+    @State private var rowCount = 0
     
     fileprivate func createPlayerHeader() -> some View {
         return HStack (alignment: .top) {
@@ -53,25 +54,38 @@ struct ContentView: View {
         return HStack () {
             Text(player.jerseyNumber).frame(width: 45)
             Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
-        }.padding(Edge.Set.Element.all, 5)
+        }
+    }
+    
+    fileprivate func determineRowColor() -> Color {
+        var rowColor: Color = Color.clear
+        rowCount += 1
+        if rowCount % 2 == 0 {
+            rowColor = Color.blue
+        }
+        return rowColor
+        
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack (alignment: .top, spacing: 10){
+            HStack (alignment: .top){
                 VStack (alignment: .leading) {
                     createPlayerHeader()
                     ForEach(homeTeam.sorted(using: homeSortOrder)) { player in
-                        HStack {
-                            createPlayerRow(player)
-                            Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
-                                for index in 0..<homeTeam.count {
-                                    if homeTeam[index].id == player.id {
-                                        homeTeam[index].personalFouls+=1
+                        ZStack {
+                            Rectangle().foregroundColor(determineRowColor()).frame(maxWidth: .infinity).opacity(0.40)
+                            HStack {
+                                createPlayerRow(player)
+                                Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
+                                    for index in 0..<homeTeam.count {
+                                        if homeTeam[index].id == player.id {
+                                            homeTeam[index].personalFouls+=1
+                                        }
                                     }
                                 }
-                            }
-                        }
+                            }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
+                        }.fixedSize(horizontal: false, vertical: true)
                     }
                 }
                 VStack (alignment: .leading) {
@@ -86,7 +100,7 @@ struct ContentView: View {
                                     }
                                 }
                             }
-                        }
+                        }.padding(Edge.Set.Element.all, 5)
                     }
                 }
             }
