@@ -83,6 +83,7 @@ struct ContentView: View {
             HStack (alignment: .top){
                 VStack (alignment: .leading) {
                     createPlayerHeader()
+                    Divider()
                     ForEach(homeTeam.sorted(using: homeSortOrder)) { player in
                         ZStack {
                             Rectangle().foregroundColor(determineRowColor(&rowCount)).frame(maxWidth: .infinity).opacity(0.40)
@@ -101,6 +102,7 @@ struct ContentView: View {
                 }
                 VStack (alignment: .leading) {
                     createPlayerHeader()
+                    Divider()
                     ForEach(guestTeam.sorted(using: guestSortOrder)) { player in
                         ZStack {
                             Rectangle().foregroundColor(determineRowColorYellow(&rowCount)).frame(maxWidth: .infinity).opacity(0.40)
@@ -118,6 +120,7 @@ struct ContentView: View {
                     }
                 }
             }
+            Rectangle().frame(maxHeight: .infinity).foregroundColor(Color.gray)
         }
     }
 }
