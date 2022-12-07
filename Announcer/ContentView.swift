@@ -16,28 +16,28 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
     struct Person: Identifiable {
-        let givenName: String
-        let familyName: String
+        var fullName: String
         var jerseyNumber: String
         let id = UUID()
         var personalFouls: Int
-        var fullName: String {
-            get{("\(givenName) \(familyName)")}
+        var edit: Bool
         }
-    }
+
     @State private var homeTeam = [
-        Person(givenName: "Juan", familyName: "Chavez", jerseyNumber: "5", personalFouls: 0),
-        Person(givenName: "Mei", familyName: "Chen", jerseyNumber: "15", personalFouls: 0),
-        Person(givenName: "Tom", familyName: "Clark", jerseyNumber: "20", personalFouls: 0),
-        Person(givenName: "Gita", familyName: "Kumar", jerseyNumber: "25", personalFouls: 0)
+        Person(fullName: "Juan Chavez", jerseyNumber: "5", personalFouls: 0, edit: false),
+        Person(fullName: "Mei Chen", jerseyNumber: "15", personalFouls: 0,edit: false),
+        Person(fullName: "Tom Clark", jerseyNumber: "20", personalFouls: 0, edit: false),
+        Person(fullName: "Gita Kumar", jerseyNumber: "25", personalFouls: 0, edit: false)
     ]
+
     @State private var guestTeam = [
-        Person(givenName: "Kate", familyName: "Rolfes", jerseyNumber: "23", personalFouls: 0),
-        Person(givenName: "Emily", familyName: "Wilson", jerseyNumber: "35", personalFouls: 0),
-        Person(givenName: "Julie", familyName: "Baudendistel", jerseyNumber: "15", personalFouls: 0),
-        Person(givenName: "Claire", familyName: "Williams", jerseyNumber: "2", personalFouls: 0)
+        Person(fullName: "Kate Rolfes", jerseyNumber: "23", personalFouls: 0, edit: false),
+        Person(fullName: "Emily Wilson", jerseyNumber: "35", personalFouls: 0, edit: false),
+        Person(fullName: "Julie Baudendistel", jerseyNumber: "15", personalFouls: 0, edit: false),
+        Person(fullName: "Claire Williams", jerseyNumber: "2", personalFouls: 0, edit: false)
     ]
     
+    @State private var homeEditMode = [Bool](repeating: false, count: 30)
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
 
@@ -50,10 +50,29 @@ struct ContentView: View {
         }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
     }
     
-    fileprivate func createPlayerRow(_ player: ContentView.Person) -> some View {
+    fileprivate func createPlayerRow(_ player: Person, editModeIndex: Int) -> some View {
         return HStack () {
             Text(player.jerseyNumber).frame(width: 45)
-            Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
+            if player.edit {
+                TextField("", text: $homeTeam[editModeIndex-1].fullName).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.leading, 5).font(.system(size: 20))
+                            .autocapitalization(.words)
+                            .disableAutocorrection(true)
+                            .onSubmit {
+                                for index in 0..<homeTeam.count {
+                                    if homeTeam[index].id == player.id {
+                                        homeTeam[index].edit.toggle()
+                                    }
+                                }
+                            }
+            } else {
+                Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
+                    for index in 0..<homeTeam.count {
+                        if homeTeam[index].id == player.id {
+                            homeTeam[index].edit.toggle()
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -117,7 +136,7 @@ struct ContentView: View {
                         ZStack {
                             Rectangle().foregroundColor(determineRowColorRed(&rowCount)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
-                                createPlayerRow(player)
+                                createPlayerRow(player, editModeIndex: rowCount)
                                 Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
                                     for index in 0..<homeTeam.count {
                                         if homeTeam[index].id == player.id {
@@ -136,7 +155,7 @@ struct ContentView: View {
                         ZStack {
                             Rectangle().foregroundColor(determineRowColorYellow(&rowCount)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
-                                createPlayerRow(player)
+                                createPlayerRow(player, editModeIndex: rowCount)
                                 Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
                                     for index in 0..<guestTeam.count {
                                         if guestTeam[index].id == player.id {
