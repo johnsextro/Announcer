@@ -79,7 +79,36 @@ struct ContentView: View {
     
     var body: some View {
         var rowCount = 0
-        VStack(alignment: .leading) {
+        VStack() {
+            HStack {
+                Grid(alignment: .topLeading, horizontalSpacing: 0, verticalSpacing: 15) {
+                    GridRow {
+                        Text("Quarter")
+                        Text("Q1").border(.blue)
+                        Text("Q2").border(.blue)
+                        Text("Q3").border(.blue)
+                        Text("Q4").border(.blue)
+                    }
+                    GridRow {
+                        Text("Team Fouls")
+                        Text("1").border(.blue)
+                        Text("0").border(.blue)
+                        Text("").border(.blue)
+                    }
+                }.frame(maxWidth: .infinity).font(Font.title2)
+                    
+                Grid() {
+                    GridRow {
+                        Text("Q1")
+                        Text("Q2")
+                        Text("Q3")
+                        Text("Q4")
+                    }
+                    GridRow {
+                        Text("1")
+                    }
+                }.frame(maxWidth: .infinity)
+            }
             HStack (alignment: .top){
                 VStack (alignment: .leading) {
                     createPlayerHeader()
