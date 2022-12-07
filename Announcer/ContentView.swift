@@ -118,21 +118,25 @@ struct ContentView: View {
                             HStack {
                                 Text(player.jerseyNumber).frame(width: 45)
                                 if player.edit {
-                                    TextField("", text: $homeTeam[homeRowCount-1].fullName).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.leading, 5).font(.system(size: 20))
-                                                .autocapitalization(.words)
-                                                .disableAutocorrection(true)
-                                                .onSubmit {
-                                                    for index in 0..<homeTeam.count {
-                                                        if homeTeam[index].id == player.id {
-                                                            homeTeam[index].edit.toggle()
-                                                        }
-                                                    }
+                                    TextField("", text: $homeTeam.first(where: { $0.id == player.id })!.fullName)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .padding(.leading, 5).font(.system(size: 20))
+                                        .autocapitalization(.words)
+                                        .disableAutocorrection(true)
+                                        .onSubmit {
+                                            for index in 0..<homeTeam.count {
+                                                if homeTeam[index].id == player.id {
+                                                    homeTeam[index].edit.toggle()
                                                 }
+                                            }
+                                        }
                                 } else {
                                     Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
-                                        for index in 0..<homeTeam.count {
-                                            if homeTeam[index].id == player.id {
-                                                homeTeam[index].edit.toggle()
+                                        withAnimation {
+                                            for index in 0..<homeTeam.count {
+                                                if homeTeam[index].id == player.id {
+                                                    homeTeam[index].edit.toggle()
+                                                }
                                             }
                                         }
                                     }
@@ -157,21 +161,25 @@ struct ContentView: View {
                             HStack {
                                 Text(player.jerseyNumber).frame(width: 45)
                                 if player.edit {
-                                    TextField("", text: $guestTeam[guestRowCount-1].fullName).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.leading, 5).font(.system(size: 20))
-                                                .autocapitalization(.words)
-                                                .disableAutocorrection(true)
-                                                .onSubmit {
-                                                    for index in 0..<guestTeam.count {
-                                                        if guestTeam[index].id == player.id {
-                                                            guestTeam[index].edit.toggle()
-                                                        }
-                                                    }
+                                    TextField("", text: $guestTeam.first(where: { $0.id == player.id })!.fullName)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .padding(.leading, 5).font(.system(size: 20))
+                                        .autocapitalization(.words)
+                                        .disableAutocorrection(true)
+                                        .onSubmit {
+                                            for index in 0..<guestTeam.count {
+                                                if guestTeam[index].id == player.id {
+                                                    guestTeam[index].edit.toggle()
                                                 }
+                                            }
+                                        }
                                 } else {
                                     Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
-                                        for index in 0..<guestTeam.count {
-                                            if guestTeam[index].id == player.id {
-                                                guestTeam[index].edit.toggle()
+                                        withAnimation {
+                                            for index in 0..<guestTeam.count {
+                                                if guestTeam[index].id == player.id {
+                                                    guestTeam[index].edit.toggle()
+                                                }
                                             }
                                         }
                                     }
