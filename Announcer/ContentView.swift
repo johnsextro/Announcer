@@ -37,7 +37,6 @@ struct ContentView: View {
         Person(fullName: "Claire Williams", jerseyNumber: "2", personalFouls: 0, edit: false)
     ]
     
-    @State private var homeEditMode = [Bool](repeating: false, count: 30)
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
 
@@ -52,27 +51,7 @@ struct ContentView: View {
     
     fileprivate func createPlayerRow(_ player: Person, editModeIndex: Int) -> some View {
         return HStack () {
-            Text(player.jerseyNumber).frame(width: 45)
-            if player.edit {
-                TextField("", text: $homeTeam[editModeIndex-1].fullName).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.leading, 5).font(.system(size: 20))
-                            .autocapitalization(.words)
-                            .disableAutocorrection(true)
-                            .onSubmit {
-                                for index in 0..<homeTeam.count {
-                                    if homeTeam[index].id == player.id {
-                                        homeTeam[index].edit.toggle()
-                                    }
-                                }
-                            }
-            } else {
-                Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
-                    for index in 0..<homeTeam.count {
-                        if homeTeam[index].id == player.id {
-                            homeTeam[index].edit.toggle()
-                        }
-                    }
-                }
-            }
+            
         }
     }
     
@@ -97,7 +76,8 @@ struct ContentView: View {
     }
     
     var body: some View {
-        var rowCount = 0
+        var homeRowCount = 0
+        var guestRowCount = 0
         VStack() {
             HStack {
                 Grid(alignment: .topLeading, horizontalSpacing: 0, verticalSpacing: 15) {
@@ -134,9 +114,29 @@ struct ContentView: View {
                     Divider()
                     ForEach(homeTeam.sorted(using: homeSortOrder)) { player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColorRed(&rowCount)).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColorRed(&homeRowCount)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
-                                createPlayerRow(player, editModeIndex: rowCount)
+                                Text(player.jerseyNumber).frame(width: 45)
+                                if player.edit {
+                                    TextField("", text: $homeTeam[homeRowCount-1].fullName).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.leading, 5).font(.system(size: 20))
+                                                .autocapitalization(.words)
+                                                .disableAutocorrection(true)
+                                                .onSubmit {
+                                                    for index in 0..<homeTeam.count {
+                                                        if homeTeam[index].id == player.id {
+                                                            homeTeam[index].edit.toggle()
+                                                        }
+                                                    }
+                                                }
+                                } else {
+                                    Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
+                                        for index in 0..<homeTeam.count {
+                                            if homeTeam[index].id == player.id {
+                                                homeTeam[index].edit.toggle()
+                                            }
+                                        }
+                                    }
+                                }
                                 Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
                                     for index in 0..<homeTeam.count {
                                         if homeTeam[index].id == player.id {
@@ -153,9 +153,29 @@ struct ContentView: View {
                     Divider()
                     ForEach(guestTeam.sorted(using: guestSortOrder)) { player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColorYellow(&rowCount)).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColorYellow(&guestRowCount)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
-                                createPlayerRow(player, editModeIndex: rowCount)
+                                Text(player.jerseyNumber).frame(width: 45)
+                                if player.edit {
+                                    TextField("", text: $guestTeam[guestRowCount-1].fullName).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.leading, 5).font(.system(size: 20))
+                                                .autocapitalization(.words)
+                                                .disableAutocorrection(true)
+                                                .onSubmit {
+                                                    for index in 0..<guestTeam.count {
+                                                        if guestTeam[index].id == player.id {
+                                                            guestTeam[index].edit.toggle()
+                                                        }
+                                                    }
+                                                }
+                                } else {
+                                    Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
+                                        for index in 0..<guestTeam.count {
+                                            if guestTeam[index].id == player.id {
+                                                guestTeam[index].edit.toggle()
+                                            }
+                                        }
+                                    }
+                                }
                                 Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
                                     for index in 0..<guestTeam.count {
                                         if guestTeam[index].id == player.id {
