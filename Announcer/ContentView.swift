@@ -22,7 +22,9 @@ struct ContentView: View {
         var personalFouls: Int
         var edit: Bool
         }
-
+    
+    @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
+    @State private var activeQuarter = 0
     @State private var homeTeam = [
         Person(fullName: "Juan Chavez", jerseyNumber: "5", personalFouls: 0, edit: false),
         Person(fullName: "Mei Chen", jerseyNumber: "15", personalFouls: 0,edit: false),
@@ -80,31 +82,36 @@ struct ContentView: View {
         var guestRowCount = 0
         VStack() {
             HStack {
-                Grid(alignment: .topLeading, horizontalSpacing: 0, verticalSpacing: 15) {
+                Grid(alignment: .center, horizontalSpacing: 15, verticalSpacing: 15) {
                     GridRow {
-                        Text("Quarter")
-                        Text("Q1").border(.blue)
-                        Text("Q2").border(.blue)
-                        Text("Q3").border(.blue)
-                        Text("Q4").border(.blue)
-                    }
-                    GridRow {
-                        Text("Team Fouls")
-                        Text("1").border(.blue)
-                        Text("0").border(.blue)
-                        Text("").border(.blue)
-                    }
-                }.frame(maxWidth: .infinity).font(Font.title2)
-                    
-                Grid() {
-                    GridRow {
+                        Text("")
                         Text("Q1")
                         Text("Q2")
                         Text("Q3")
                         Text("Q4")
+                        Text("OT")
                     }
                     GridRow {
-                        Text("1")
+                        Text("Team Fouls")
+                        ForEach(teamFouls["home"]!, id: \.self) {
+                                Text("\($0)")
+                            }
+                    }
+                }.frame(maxWidth: .infinity)
+                Grid(alignment: .center, horizontalSpacing: 15, verticalSpacing: 15) {
+                    GridRow {
+                        Text("")
+                        Text("Q1")
+                        Text("Q2")
+                        Text("Q3")
+                        Text("Q4")
+                        Text("OT")
+                    }
+                    GridRow {
+                        Text("Team Fouls")
+                        ForEach(teamFouls["guest"]!, id: \.self) {
+                                Text("\($0)")
+                            }
                     }
                 }.frame(maxWidth: .infinity)
             }
@@ -147,6 +154,7 @@ struct ContentView: View {
                                             homeTeam[index].personalFouls+=1
                                         }
                                     }
+                                    teamFouls["home"]![activeQuarter]+=1
                                 }
                             }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
                         }.fixedSize(horizontal: false, vertical: true)
@@ -190,6 +198,7 @@ struct ContentView: View {
                                             guestTeam[index].personalFouls+=1
                                         }
                                     }
+                                    teamFouls["guest"]![activeQuarter]+=1
                                 }
                             }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
                         }.fixedSize(horizontal: false, vertical: true)
