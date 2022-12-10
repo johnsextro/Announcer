@@ -25,6 +25,8 @@ struct ContentView: View {
     
     @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
     @State private var activeQuarter = 0
+    @State private var quarterIndex = 0
+    
     @State private var homeTeam = [
         Person(fullName: "Juan Chavez", jerseyNumber: "5", personalFouls: 0, edit: false),
         Person(fullName: "Mei Chen", jerseyNumber: "15", personalFouls: 0,edit: false),
@@ -51,11 +53,11 @@ struct ContentView: View {
         }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
     }
     
-    fileprivate func createPlayerRow(_ player: Person, editModeIndex: Int) -> some View {
-        return HStack () {
-            
-        }
-    }
+//    fileprivate func createPlayerRow(_ player: Person, editModeIndex: Int) -> some View {
+//        return HStack () {
+//
+//        }
+//    }
     
     fileprivate func determineRowColorRed(_ index: inout Int) -> Color {
         var rowColor: Color = Color.clear
@@ -77,6 +79,11 @@ struct ContentView: View {
         
     }
     
+    fileprivate func teamFoulsColor() -> Color {
+        quarterIndex += 1
+        return quarterIndex >= activeQuarter ? Color.black : Color.red
+    }
+    
     var body: some View {
         var homeRowCount = 0
         var guestRowCount = 0
@@ -94,10 +101,18 @@ struct ContentView: View {
                     GridRow {
                         Text("Team Fouls")
                         ForEach(teamFouls["home"]!, id: \.self) {
-                                Text("\($0)")
+                            Text("\($0)").foregroundColor(Color.black)
                             }
+                        
                     }
                 }.frame(maxWidth: .infinity)
+                VStack {
+                    Button("Next Qtr") {
+                        withAnimation {
+                            activeQuarter+=1
+                        }
+                    }.buttonStyle(.bordered)
+                }
                 Grid(alignment: .center, horizontalSpacing: 15, verticalSpacing: 15) {
                     GridRow {
                         Text("")
