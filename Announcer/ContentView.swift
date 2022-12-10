@@ -45,7 +45,8 @@ struct ContentView: View {
     
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
-
+    @State private var homeRowCount = 0
+    @State private var guestRowCount = 0
     
     fileprivate func createPlayerHeader() -> some View {
         return HStack (alignment: .top) {
@@ -55,22 +56,22 @@ struct ContentView: View {
         }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
     }
     
-    fileprivate func determineRowColorRed(_ index: inout Int) -> Color {
+    fileprivate func determineRowColorRed() -> Color {
         var rowColor: Color = Color.clear
-        index += 1
-        if index % 2 == 0 {
+        if homeRowCount % 2 != 0 {
             rowColor = Color.pink
         }
+        homeRowCount += 1
         return rowColor
         
     }
     
-    fileprivate func determineRowColorYellow(_ index: inout Int) -> Color {
+    fileprivate func determineRowColorYellow() -> Color {
         var rowColor: Color = Color.clear
-        index += 1
-        if index % 2 == 0 {
+        if guestRowCount % 2 != 0 {
             rowColor = Color.yellow
         }
+        guestRowCount += 1
         return rowColor
         
     }
@@ -81,8 +82,6 @@ struct ContentView: View {
     }
     
     var body: some View {
-        var homeRowCount = 0
-        var guestRowCount = 0
         VStack() {
             HStack {
                 Grid(alignment: .center, horizontalSpacing: 10, verticalSpacing: 15) {
@@ -133,7 +132,7 @@ struct ContentView: View {
                     Divider()
                     ForEach(homeTeam.sorted(using: homeSortOrder)) { player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColorRed(&homeRowCount)).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColorRed()).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
                                 Text(player.jerseyNumber).frame(width: 45)
                                 if player.edit {
@@ -177,7 +176,7 @@ struct ContentView: View {
                     Divider()
                     ForEach(guestTeam.sorted(using: guestSortOrder)) { player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColorYellow(&guestRowCount)).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColorYellow()).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
                                 Text(player.jerseyNumber).frame(width: 45)
                                 if player.edit {
@@ -231,8 +230,9 @@ struct ContentView: View {
                             HStack {
                                 Spacer()
                                 Button("Save") {
+                                    homeRowCount = 0
                                     homeTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
-                                    newPlayerJersey = ""
+                                    newPlayerJersey = String(Int(newPlayerJersey)! + 1)
                                     newPlayerFullname = ""
                                 }.buttonStyle(.borderedProminent)
                             }
