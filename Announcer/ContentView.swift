@@ -225,6 +225,8 @@ struct ContentView: View {
                     TextField("Full Name", text: $newPlayerFullname)
                     Button("Save") {
                         homeTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
+                        newPlayerJersey = ""
+                        newPlayerFullname = ""
                     }
                 }.fixedSize(horizontal: false, vertical: false)
                 Form {
@@ -232,6 +234,8 @@ struct ContentView: View {
                     TextField("Full Name", text: $newPlayerFullname)
                     Button("Save") {
                         guestTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
+                        newPlayerJersey = ""
+                        newPlayerFullname = ""
                     }
                 }.fixedSize(horizontal: false, vertical: false)
             }
