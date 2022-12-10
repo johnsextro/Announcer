@@ -26,6 +26,8 @@ struct ContentView: View {
     @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
     @State private var activeQuarter = 0
     @State private var quarterIndex = 0
+    @State private var newPlayerJersey = ""
+    @State private var newPlayerFullname = ""
     
     @State private var homeTeam = [
         Person(fullName: "Juan Chavez", jerseyNumber: "5", personalFouls: 0, edit: false),
@@ -53,12 +55,6 @@ struct ContentView: View {
         }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
     }
     
-//    fileprivate func createPlayerRow(_ player: Person, editModeIndex: Int) -> some View {
-//        return HStack () {
-//
-//        }
-//    }
-    
     fileprivate func determineRowColorRed(_ index: inout Int) -> Color {
         var rowColor: Color = Color.clear
         index += 1
@@ -81,7 +77,7 @@ struct ContentView: View {
     
     fileprivate func teamFoulsColor() -> Color {
         quarterIndex += 1
-        return quarterIndex >= activeQuarter ? Color.black : Color.red
+        return quarterIndex < activeQuarter ? Color.black : Color.red
     }
     
     var body: some View {
@@ -89,7 +85,7 @@ struct ContentView: View {
         var guestRowCount = 0
         VStack() {
             HStack {
-                Grid(alignment: .center, horizontalSpacing: 15, verticalSpacing: 15) {
+                Grid(alignment: .center, horizontalSpacing: 10, verticalSpacing: 15) {
                     GridRow {
                         Text("")
                         Text("Q1")
@@ -98,12 +94,12 @@ struct ContentView: View {
                         Text("Q4")
                         Text("OT")
                     }
+                    Divider()
                     GridRow {
                         Text("Team Fouls")
                         ForEach(teamFouls["home"]!, id: \.self) {
-                            Text("\($0)").foregroundColor(Color.black)
+                            Text("\($0)")
                             }
-                        
                     }
                 }.frame(maxWidth: .infinity)
                 VStack {
@@ -122,6 +118,7 @@ struct ContentView: View {
                         Text("Q4")
                         Text("OT")
                     }
+                    Divider()
                     GridRow {
                         Text("Team Fouls")
                         ForEach(teamFouls["guest"]!, id: \.self) {
@@ -219,6 +216,24 @@ struct ContentView: View {
                         }.fixedSize(horizontal: false, vertical: true)
                     }
                 }
+            }
+            Spacer()
+            Divider()
+            HStack {
+                Form {
+                    TextField("Number", text: $newPlayerJersey)
+                    TextField("Full Name", text: $newPlayerFullname)
+                    Button("Save") {
+                        homeTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
+                    }
+                }.fixedSize(horizontal: false, vertical: false)
+                Form {
+                    TextField("Number", text: $newPlayerJersey)
+                    TextField("Full Name", text: $newPlayerFullname)
+                    Button("Save") {
+                        guestTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
+                    }
+                }.fixedSize(horizontal: false, vertical: false)
             }
             Rectangle().frame(maxHeight: .infinity).foregroundColor(Color.gray)
         }
