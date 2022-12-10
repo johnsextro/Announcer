@@ -219,25 +219,45 @@ struct ContentView: View {
             }
             Spacer()
             Divider()
-            HStack {
-                Form {
-                    TextField("Number", text: $newPlayerJersey)
-                    TextField("Full Name", text: $newPlayerFullname)
-                    Button("Save") {
-                        homeTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
-                        newPlayerJersey = ""
-                        newPlayerFullname = ""
+            HStack (alignment: .top){
+                Collapsible(
+                    label: { Text("Add Player") },
+                    content: {
+                        Form {
+                            HStack {
+                                TextField("##", text: $newPlayerJersey).frame(width: 45)
+                                TextField("Full Name", text: $newPlayerFullname)
+                            }
+                            HStack {
+                                Spacer()
+                                Button("Save") {
+                                    homeTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
+                                    newPlayerJersey = ""
+                                    newPlayerFullname = ""
+                                }.buttonStyle(.borderedProminent)
+                            }
+                        }
                     }
-                }.fixedSize(horizontal: false, vertical: false)
-                Form {
-                    TextField("Number", text: $newPlayerJersey)
-                    TextField("Full Name", text: $newPlayerFullname)
-                    Button("Save") {
-                        guestTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
-                        newPlayerJersey = ""
-                        newPlayerFullname = ""
+                )
+                Collapsible(
+                    label: { Text("Add Player") },
+                    content: {
+                        Form {
+                            HStack {
+                                TextField("##", text: $newPlayerJersey).frame(width: 45)
+                                TextField("Full Name", text: $newPlayerFullname)
+                            }
+                            HStack {
+                                Spacer()
+                                Button("Save") {
+                                    guestTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
+                                    newPlayerJersey = ""
+                                    newPlayerFullname = ""
+                                }.buttonStyle(.borderedProminent)
+                            }
+                        }.fixedSize(horizontal: false, vertical: false)
                     }
-                }.fixedSize(horizontal: false, vertical: false)
+                )
             }
             Rectangle().frame(maxHeight: .infinity).foregroundColor(Color.gray)
         }
