@@ -61,7 +61,6 @@ struct ContentView: View {
         if homeRowCount % 2 != 0 {
             rowColor = Color.pink
         }
-        homeRowCount += 1
         return rowColor
         
     }
@@ -71,7 +70,6 @@ struct ContentView: View {
         if guestRowCount % 2 != 0 {
             rowColor = Color.yellow
         }
-        guestRowCount += 1
         return rowColor
         
     }
