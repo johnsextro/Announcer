@@ -56,22 +56,20 @@ struct ContentView: View {
         }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
     }
     
-    fileprivate func determineRowColorRed() -> Color {
+    fileprivate func determineRowColorRed(_ homeRowCount: Int) -> Color {
         var rowColor: Color = Color.clear
         if homeRowCount % 2 != 0 {
             rowColor = Color.pink
         }
-        homeRowCount += 1
         return rowColor
         
     }
     
-    fileprivate func determineRowColorYellow() -> Color {
+    fileprivate func determineRowColorYellow(_ guestRowCount: Int) -> Color {
         var rowColor: Color = Color.clear
         if guestRowCount % 2 != 0 {
             rowColor = Color.yellow
         }
-        guestRowCount += 1
         return rowColor
         
     }
@@ -130,9 +128,12 @@ struct ContentView: View {
                 VStack (alignment: .leading) {
                     createPlayerHeader()
                     Divider()
-                    ForEach(homeTeam.sorted(using: homeSortOrder)) { player in
+//                    ForEach(Array(zip(items.indices, items)), id: \.0) { index, item in
+//                      // index and item are both safe to use here
+//                    }
+                    ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColorRed()).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColorRed(homeIndex)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
                                 Text(player.jerseyNumber).frame(width: 45)
                                 if player.edit {
@@ -174,9 +175,9 @@ struct ContentView: View {
                 VStack (alignment: .leading) {
                     createPlayerHeader()
                     Divider()
-                    ForEach(guestTeam.sorted(using: guestSortOrder)) { player in
+                    ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColorYellow()).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColorYellow(guestIndex)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
                                 Text(player.jerseyNumber).frame(width: 45)
                                 if player.edit {
