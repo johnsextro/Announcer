@@ -45,8 +45,6 @@ struct ContentView: View {
     
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
-    @State private var homeRowCount = 0
-    @State private var guestRowCount = 0
     
     fileprivate func createPlayerHeader() -> some View {
         return HStack (alignment: .top) {
@@ -128,9 +126,6 @@ struct ContentView: View {
                 VStack (alignment: .leading) {
                     createPlayerHeader()
                     Divider()
-//                    ForEach(Array(zip(items.indices, items)), id: \.0) { index, item in
-//                      // index and item are both safe to use here
-//                    }
                     ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
                         ZStack {
                             Rectangle().foregroundColor(determineRowColorRed(homeIndex)).frame(maxWidth: .infinity).opacity(0.40)
@@ -231,7 +226,6 @@ struct ContentView: View {
                             HStack {
                                 Spacer()
                                 Button("Save") {
-                                    homeRowCount = 0
                                     homeTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
                                     newPlayerJersey = String(Int(newPlayerJersey)! + 1)
                                     newPlayerFullname = ""
