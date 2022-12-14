@@ -45,7 +45,7 @@ struct ContentView: View {
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     
-    fileprivate func createPlayerHeader() -> some View {
+    fileprivate func CreatePlayerHeader() -> some View {
         return HStack (alignment: .top) {
             Text("##").frame(width: 45)
             Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
@@ -61,26 +61,30 @@ struct ContentView: View {
         return rowColor
     }
     
+    fileprivate func CreateTeamFoulsGrid(_ teamFoulsByQuarter: [Int]) -> some View {
+        return Grid(alignment: .center, horizontalSpacing: 10, verticalSpacing: 15) {
+            GridRow {
+                Text("")
+                Text("Q1")
+                Text("Q2")
+                Text("Q3")
+                Text("Q4")
+                Text("OT")
+            }
+            Divider()
+            GridRow {
+                Text("Team Fouls")
+                ForEach(Array(teamFoulsByQuarter.enumerated()), id: \.0) { offset, item in
+                    Text("\(item)").foregroundColor(offset >= activeQuarter ? .black : .red)
+                }
+            }
+        }.frame(maxWidth: .infinity)
+    }
+    
     var body: some View {
         VStack() {
             HStack {
-                Grid(alignment: .center, horizontalSpacing: 10, verticalSpacing: 15) {
-                    GridRow {
-                        Text("")
-                        Text("Q1")
-                        Text("Q2")
-                        Text("Q3")
-                        Text("Q4")
-                        Text("OT")
-                    }
-                    Divider()
-                    GridRow {
-                        Text("Team Fouls")
-                        ForEach(Array(teamFouls["home"]!.enumerated()), id: \.0) { offset, item in
-                            Text("\(item)").foregroundColor(offset >= activeQuarter ? .black : .red)
-                        }
-                    }
-                }.frame(maxWidth: .infinity)
+                CreateTeamFoulsGrid(teamFouls["home"]!)
                 VStack {
                     Button("Next Qtr") {
                         withAnimation {
@@ -88,27 +92,11 @@ struct ContentView: View {
                         }
                     }.buttonStyle(.bordered)
                 }
-                Grid(alignment: .center, horizontalSpacing: 15, verticalSpacing: 15) {
-                    GridRow {
-                        Text("")
-                        Text("Q1")
-                        Text("Q2")
-                        Text("Q3")
-                        Text("Q4")
-                        Text("OT")
-                    }
-                    Divider()
-                    GridRow {
-                        Text("Team Fouls")
-                        ForEach(Array(teamFouls["guest"]!.enumerated()), id: \.0) { offset, item in
-                            Text("\(item)").foregroundColor(offset >= activeQuarter ? .black : .red)
-                        }
-                    }
-                }.frame(maxWidth: .infinity)
+                CreateTeamFoulsGrid(teamFouls["guest"]!)
             }
             HStack (alignment: .top){
                 VStack (alignment: .leading) {
-                    createPlayerHeader()
+                    CreatePlayerHeader()
                     Divider()
                     ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
                         ZStack {
@@ -152,7 +140,7 @@ struct ContentView: View {
                     }
                 }
                 VStack (alignment: .leading) {
-                    createPlayerHeader()
+                    CreatePlayerHeader()
                     Divider()
                     ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
                         ZStack {
