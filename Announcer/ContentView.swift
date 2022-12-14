@@ -24,9 +24,7 @@ struct ContentView: View {
         }
     
     @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
-    @State private var homeFouls = [0,0,0,0,0]
     @State private var activeQuarter = 0
-    @State private var quarterIndex = 0
     @State private var newPlayerJersey = ""
     @State private var newPlayerFullname = ""
     
@@ -63,11 +61,6 @@ struct ContentView: View {
         return rowColor
     }
     
-    fileprivate func teamFoulsColor() -> Color {
-        quarterIndex += 1
-        return quarterIndex < activeQuarter ? Color.black : Color.red
-    }
-    
     var body: some View {
         VStack() {
             HStack {
@@ -83,18 +76,15 @@ struct ContentView: View {
                     Divider()
                     GridRow {
                         Text("Team Fouls")
-                        ForEach(teamFouls["home"]!, id: \.self) {
-                            Text("\($0)")
+                        ForEach(Array(teamFouls["home"]!.enumerated()), id: \.0) { offset, item in
+                            Text("\(item)").foregroundColor(offset >= activeQuarter ? .black : .red)
                         }
-//                        ForEach(Array.zip(homeFouls.indices, homeFouls), id: \.0) { quarter, foulCount in
-//                            Text(String(foulCount))
-//                        }
                     }
                 }.frame(maxWidth: .infinity)
                 VStack {
                     Button("Next Qtr") {
                         withAnimation {
-                            activeQuarter+=1
+                            self.activeQuarter+=1
                         }
                     }.buttonStyle(.bordered)
                 }
@@ -110,9 +100,9 @@ struct ContentView: View {
                     Divider()
                     GridRow {
                         Text("Team Fouls")
-                        ForEach(teamFouls["guest"]!, id: \.self) {
-                                Text("\($0)")
-                            }
+                        ForEach(Array(teamFouls["guest"]!.enumerated()), id: \.0) { offset, item in
+                            Text("\(item)").foregroundColor(offset >= activeQuarter ? .black : .red)
+                        }
                     }
                 }.frame(maxWidth: .infinity)
             }
