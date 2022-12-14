@@ -24,6 +24,7 @@ struct ContentView: View {
         }
     
     @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
+    @State private var homeFouls = [0,0,0,0,0]
     @State private var activeQuarter = 0
     @State private var quarterIndex = 0
     @State private var newPlayerJersey = ""
@@ -45,8 +46,6 @@ struct ContentView: View {
     
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
-    @State private var homeRowCount = 0
-    @State private var guestRowCount = 0
     
     fileprivate func createPlayerHeader() -> some View {
         return HStack (alignment: .top) {
@@ -56,22 +55,12 @@ struct ContentView: View {
         }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
     }
     
-    fileprivate func determineRowColorRed() -> Color {
+    fileprivate func determineRowColor(_ homeRowCount: Int, home: Bool) -> Color {
         var rowColor: Color = Color.clear
         if homeRowCount % 2 != 0 {
-            rowColor = Color.pink
+            rowColor = home==true ? Color.pink : Color.yellow
         }
         return rowColor
-        
-    }
-    
-    fileprivate func determineRowColorYellow() -> Color {
-        var rowColor: Color = Color.clear
-        if guestRowCount % 2 != 0 {
-            rowColor = Color.yellow
-        }
-        return rowColor
-        
     }
     
     fileprivate func teamFoulsColor() -> Color {
@@ -96,7 +85,10 @@ struct ContentView: View {
                         Text("Team Fouls")
                         ForEach(teamFouls["home"]!, id: \.self) {
                             Text("\($0)")
-                            }
+                        }
+//                        ForEach(Array.zip(homeFouls.indices, homeFouls), id: \.0) { quarter, foulCount in
+//                            Text(String(foulCount))
+//                        }
                     }
                 }.frame(maxWidth: .infinity)
                 VStack {
@@ -128,9 +120,9 @@ struct ContentView: View {
                 VStack (alignment: .leading) {
                     createPlayerHeader()
                     Divider()
-                    ForEach(homeTeam.sorted(using: homeSortOrder)) { player in
+                    ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColorRed()).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColor(homeIndex, home: true)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
                                 Text(player.jerseyNumber).frame(width: 45)
                                 if player.edit {
@@ -172,9 +164,9 @@ struct ContentView: View {
                 VStack (alignment: .leading) {
                     createPlayerHeader()
                     Divider()
-                    ForEach(guestTeam.sorted(using: guestSortOrder)) { player in
+                    ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
                         ZStack {
-                            Rectangle().foregroundColor(determineRowColorYellow()).frame(maxWidth: .infinity).opacity(0.40)
+                            Rectangle().foregroundColor(determineRowColor(guestIndex, home: false)).frame(maxWidth: .infinity).opacity(0.40)
                             HStack {
                                 Text(player.jerseyNumber).frame(width: 45)
                                 if player.edit {
@@ -228,7 +220,6 @@ struct ContentView: View {
                             HStack {
                                 Spacer()
                                 Button("Save") {
-                                    homeRowCount = 0
                                     homeTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
                                     newPlayerJersey = String(Int(newPlayerJersey)! + 1)
                                     newPlayerFullname = ""
