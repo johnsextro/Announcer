@@ -24,6 +24,7 @@ struct ContentView: View {
         }
     
     @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
+    @State private var homeFouls = [0,0,0,0,0]
     @State private var activeQuarter = 0
     @State private var quarterIndex = 0
     @State private var newPlayerJersey = ""
@@ -84,7 +85,10 @@ struct ContentView: View {
                         Text("Team Fouls")
                         ForEach(teamFouls["home"]!, id: \.self) {
                             Text("\($0)")
-                            }
+                        }
+//                        ForEach(Array.zip(homeFouls.indices, homeFouls), id: \.0) { quarter, foulCount in
+//                            Text(String(foulCount))
+//                        }
                     }
                 }.frame(maxWidth: .infinity)
                 VStack {
