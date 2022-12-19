@@ -12,9 +12,9 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Team.year, ascending: false)],
         animation: .default)
-    private var items: FetchedResults<Item>
+    private var teams: FetchedResults<Team>
     struct Person: Identifiable {
         var fullName: String
         var jerseyNumber: String
