@@ -11,10 +11,14 @@ import CoreData
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
+//    @FetchRequest(
+//        sortDescriptors: [NSSortDescriptor(keyPath: \Team.year, ascending: false)],
+//        animation: .default) private var teams: FetchedResults<Team>
+    
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Team.year, ascending: false)],
-        animation: .default)
-    private var teams: FetchedResults<Team>
+        sortDescriptors: [NSSortDescriptor(keyPath: \Player.jersey, ascending: true)],
+        animation: .default) private var players: FetchedResults<Player>
+    
     struct Person: Identifiable {
         var fullName: String
         var jerseyNumber: String
@@ -32,9 +36,9 @@ struct ContentView: View {
         Person(fullName: "Juan Chavez", jerseyNumber: "5", personalFouls: 0, edit: false),
         Person(fullName: "Mei Chen", jerseyNumber: "15", personalFouls: 0,edit: false),
         Person(fullName: "Tom Clark", jerseyNumber: "20", personalFouls: 0, edit: false),
-        Person(fullName: "Gita Kumar", jerseyNumber: "25", personalFouls: 0, edit: false)
+        Person(fullName: "Gita Kumar", jerseyNumber: "25", personalFouls: 0, edit: false),
     ]
-
+    
     @State private var guestTeam = [
         Person(fullName: "Kate Rolfes", jerseyNumber: "23", personalFouls: 0, edit: false),
         Person(fullName: "Emily Wilson", jerseyNumber: "35", personalFouls: 0, edit: false),
@@ -227,6 +231,11 @@ struct ContentView: View {
                 )
             }
             Rectangle().frame(maxHeight: .infinity).foregroundColor(Color.gray)
+        }.onAppear {
+            for index in 0..<players.count {
+                var player: Player = players[index]
+                homeTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+            }
         }
     }
 }
