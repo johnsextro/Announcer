@@ -19,13 +19,14 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Player.jersey, ascending: true)],
         animation: .default) private var players: FetchedResults<Player>
     
-    @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
-    @State private var activeQuarter = 0
     @State private var newPlayerJersey = ""
     @State private var newPlayerFullname = ""
     
     @State private var homeTeam: [Person] = []
     @State private var guestTeam: [Person] = []
+    
+    @State public var activeQuarter = 0
+    @State public var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
     
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
@@ -46,38 +47,10 @@ struct ContentView: View {
         return rowColor
     }
     
-    fileprivate func CreateTeamFoulsGrid(_ teamFoulsByQuarter: [Int]) -> some View {
-        return Grid(alignment: .center, horizontalSpacing: 10, verticalSpacing: 15) {
-            GridRow {
-                Text("")
-                Text("Q1")
-                Text("Q2")
-                Text("Q3")
-                Text("Q4")
-                Text("OT")
-            }
-            Divider()
-            GridRow {
-                Text("Team Fouls")
-                ForEach(Array(teamFoulsByQuarter.enumerated()), id: \.0) { offset, item in
-                    Text("\(item)").foregroundColor(offset >= activeQuarter ? .black : .red)
-                }
-            }
-        }.frame(maxWidth: .infinity)
-    }
-    
     var body: some View {
         VStack() {
             HStack {
-                CreateTeamFoulsGrid(teamFouls["home"]!)
-                VStack {
-                    Button("Next Qtr") {
-                        withAnimation {
-                            self.activeQuarter+=1
-                        }
-                    }.buttonStyle(.bordered)
-                }
-                CreateTeamFoulsGrid(teamFouls["guest"]!)
+                TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls)
             }
             HStack (alignment: .top){
                 VStack (alignment: .leading) {
