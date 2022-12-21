@@ -14,10 +14,19 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for index in 0..<15 {
-            let player = Player(context: viewContext)
-            player.id = UUID()
-            player.jersey = "\(index)"
-            player.fullname = "Player Name\(index)"
+            let homeplayer = Player(context: viewContext)
+            homeplayer.id = UUID()
+            homeplayer.jersey = "\(index)"
+            homeplayer.fullname = "Player Name\(index)"
+            homeplayer.team = "Webster"
+        }
+
+        for index in 0..<15 {
+            let guestplayer = Player(context: viewContext)
+            guestplayer.id = UUID()
+            guestplayer.jersey = "\(index)"
+            guestplayer.fullname = "Player Name\(index)"
+            guestplayer.team = "Fontbonne"
         }
         
         do {

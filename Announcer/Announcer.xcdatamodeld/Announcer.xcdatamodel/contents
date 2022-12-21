@@ -7,6 +7,7 @@
         <attribute name="fullname" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="jersey" optional="YES" attributeType="String"/>
+        <attribute name="team" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Team" representedClassName="Team" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>

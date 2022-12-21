@@ -17,6 +17,7 @@
 		083B7353292FE12F00B3B727 /* AnnouncerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083B7352292FE12F00B3B727 /* AnnouncerTests.swift */; };
 		083B735D292FE12F00B3B727 /* AnnouncerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083B735C292FE12F00B3B727 /* AnnouncerUITests.swift */; };
 		083B735F292FE12F00B3B727 /* AnnouncerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083B735E292FE12F00B3B727 /* AnnouncerUITestsLaunchTests.swift */; };
+		08A884AC29537A4F00D63A29 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A884AB29537A4F00D63A29 /* Person.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		083B7358292FE12F00B3B727 /* AnnouncerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnnouncerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		083B735C292FE12F00B3B727 /* AnnouncerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncerUITests.swift; sourceTree = "<group>"; };
 		083B735E292FE12F00B3B727 /* AnnouncerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		08A884AB29537A4F00D63A29 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				083B7346292FE12E00B3B727 /* Announcer.xcdatamodeld */,
 				083B7341292FE12E00B3B727 /* Preview Content */,
 				0820B84A2945376B00CD4E56 /* Collapsible.swift */,
+				08A884AB29537A4F00D63A29 /* Person.swift */,
 			);
 			path = Announcer;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08A884AC29537A4F00D63A29 /* Person.swift in Sources */,
 				083B7345292FE12E00B3B727 /* Persistence.swift in Sources */,
 				083B733E292FE12C00B3B727 /* ContentView.swift in Sources */,
 				083B733C292FE12C00B3B727 /* AnnouncerApp.swift in Sources */,
