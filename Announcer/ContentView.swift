@@ -25,8 +25,8 @@ struct ContentView: View {
     @State private var homeTeam: [Person] = []
     @State private var guestTeam: [Person] = []
     
-    @State public var activeQuarter = 0
-    @State public var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
+    @State private var activeQuarter = 0
+    @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
     
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]

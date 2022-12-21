@@ -47,10 +47,13 @@ struct TeamFoulsView: View {
     }
 }
 
-//struct TeamFoulsView_Previews: PreviewProvider {
-//    @Binding var activeQuarter = 0
-//
-//    static var previews: some View {
-//        TeamFoulsView(activeQuarter: self.activeQuarter)
-//    }
-//}
+struct TeamFoulsView_Previews: PreviewProvider {
+    @State static var previewactiveQuarter = 0
+    @State static var previewteamFouls = ["home": [99,99,99,99,99], "guest": [99,99,99,99,99]]
+
+    static var previews: some View {
+        HStack {
+            TeamFoulsView(activeQuarter: $previewactiveQuarter, teamFouls: $previewteamFouls)
+        }
+    }
+}
