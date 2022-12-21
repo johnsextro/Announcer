@@ -13,20 +13,12 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-//        for _ in 0..<1 {
-//            let newItem = Team(context: viewContext)
-//            newItem.id = UUID()
-//            newItem.men = false
-//            newItem.year = 2022
-//        }
-        let player = Player(context: viewContext)
-        player.id = UUID()
-        player.jersey = "22"
-        player.fullname = "Bethany Lancaster"
-        let player1 = Player(context: viewContext)
-        player1.id = UUID()
-        player1.jersey = "11"
-        player1.fullname = "Jill Stine"
+        for index in 0..<15 {
+            let player = Player(context: viewContext)
+            player.id = UUID()
+            player.jersey = "\(index)"
+            player.fullname = "Player Name\(index)"
+        }
         
         do {
             try viewContext.save()
