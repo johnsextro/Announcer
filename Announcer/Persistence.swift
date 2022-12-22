@@ -9,6 +9,18 @@ import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()
+    
+    func save() {
+        let context = container.viewContext
+
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Show some error here
+            }
+        }
+    }
 
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
@@ -28,6 +40,20 @@ struct PersistenceController {
             guestplayer.fullname = "Player Name\(index)"
             guestplayer.team = "Fontbonne"
         }
+        
+        let webstermen = Team(context: viewContext)
+        webstermen.id = UUID()
+        webstermen.men = true
+        webstermen.name = "Webster"
+        webstermen.year = 2023
+        webstermen.mascot = "Gorloks"
+        
+        let fontbonnemen = Team(context: viewContext)
+        fontbonnemen.id = UUID()
+        fontbonnemen.men = true
+        fontbonnemen.name = "Fontbonne"
+        fontbonnemen.year = 2022
+        fontbonnemen.mascot = "Griffins"
         
         do {
             try viewContext.save()

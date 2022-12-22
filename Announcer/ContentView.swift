@@ -11,9 +11,9 @@ import CoreData
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    //    @FetchRequest(
-    //        sortDescriptors: [NSSortDescriptor(keyPath: \Team.year, ascending: false)],
-    //        animation: .default) private var teams: FetchedResults<Team>
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Team.year, ascending: false)],
+        animation: .default) private var teams: FetchedResults<Team>
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Player.jersey, ascending: true)],
@@ -49,8 +49,10 @@ struct ContentView: View {
             HStack {
                 TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls)
             }
+            Divider()
             HStack (alignment: .top){
                 VStack (alignment: .leading) {
+                    Text(teams[0].mascot!).frame(maxWidth: .infinity).font(.title)
                     CreatePlayerHeader()
                     Divider()
                     ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
@@ -95,6 +97,7 @@ struct ContentView: View {
                     }
                 }
                 VStack (alignment: .leading) {
+                    Text(teams[1].mascot!).frame(maxWidth: .infinity).font(.title)
                     CreatePlayerHeader()
                     Divider()
                     ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
