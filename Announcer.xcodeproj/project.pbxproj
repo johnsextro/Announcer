@@ -19,6 +19,7 @@
 		083B735F292FE12F00B3B727 /* AnnouncerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083B735E292FE12F00B3B727 /* AnnouncerUITestsLaunchTests.swift */; };
 		08A884AC29537A4F00D63A29 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A884AB29537A4F00D63A29 /* Person.swift */; };
 		08A884AE29537B9800D63A29 /* TeamFoulsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A884AD29537B9800D63A29 /* TeamFoulsView.swift */; };
+		08A884B02953E22A00D63A29 /* AddPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A884AF2953E22A00D63A29 /* AddPlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		083B735E292FE12F00B3B727 /* AnnouncerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		08A884AB29537A4F00D63A29 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		08A884AD29537B9800D63A29 /* TeamFoulsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamFoulsView.swift; sourceTree = "<group>"; };
+		08A884AF2953E22A00D63A29 /* AddPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				0820B84A2945376B00CD4E56 /* Collapsible.swift */,
 				08A884AB29537A4F00D63A29 /* Person.swift */,
 				08A884AD29537B9800D63A29 /* TeamFoulsView.swift */,
+				08A884AF2953E22A00D63A29 /* AddPlayerView.swift */,
 			);
 			path = Announcer;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				083B733C292FE12C00B3B727 /* AnnouncerApp.swift in Sources */,
 				0820B84B2945376B00CD4E56 /* Collapsible.swift in Sources */,
 				083B7348292FE12E00B3B727 /* Announcer.xcdatamodeld in Sources */,
+				08A884B02953E22A00D63A29 /* AddPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

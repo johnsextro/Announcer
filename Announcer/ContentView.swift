@@ -19,9 +19,6 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Player.jersey, ascending: true)],
         animation: .default) private var players: FetchedResults<Player>
     
-    @State private var newPlayerJersey = ""
-    @State private var newPlayerFullname = ""
-    
     @State private var homeTeam: [Person] = []
     @State private var guestTeam: [Person] = []
     
@@ -145,44 +142,8 @@ struct ContentView: View {
             Spacer()
             Divider()
             HStack (alignment: .top){
-                Collapsible(
-                    label: { Text("Add Player") },
-                    content: {
-                        Form {
-                            HStack {
-                                TextField("##", text: $newPlayerJersey).frame(width: 45)
-                                TextField("Full Name", text: $newPlayerFullname)
-                            }
-                            HStack {
-                                Spacer()
-                                Button("Save") {
-                                    homeTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
-                                    newPlayerJersey = String(Int(newPlayerJersey)! + 1)
-                                    newPlayerFullname = ""
-                                }.buttonStyle(.borderedProminent)
-                            }
-                        }
-                    }
-                )
-                Collapsible(
-                    label: { Text("Add Player") },
-                    content: {
-                        Form {
-                            HStack {
-                                TextField("##", text: $newPlayerJersey).frame(width: 45)
-                                TextField("Full Name", text: $newPlayerFullname)
-                            }
-                            HStack {
-                                Spacer()
-                                Button("Save") {
-                                    guestTeam.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
-                                    newPlayerJersey = ""
-                                    newPlayerFullname = ""
-                                }.buttonStyle(.borderedProminent)
-                            }
-                        }.fixedSize(horizontal: false, vertical: false)
-                    }
-                )
+                AddPlayerView(team: $homeTeam)
+                AddPlayerView(team: $guestTeam)
             }
             Rectangle().frame(maxHeight: .infinity).foregroundColor(Color.gray)
         }.onAppear {
