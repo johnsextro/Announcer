@@ -17,41 +17,36 @@ struct AddPlayerView: View {
     var teamname: String
     
     var body: some View {
-        Collapsible(
-            label: { Text("Add Player") },
-            content: {
-                Form {
-                    HStack {
-                        TextField("##", text: $newPlayerJersey).frame(width: 45).keyboardType(.numberPad)
-                        TextField("Full Name", text: $newPlayerFullname)
-                    }
-                    HStack {
-                        Spacer()
-                        Button("Save") {
-                            team.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
-                            var nextNumber: String
-                            switch newPlayerJersey {
-                                case "5", "15", "25", "35", "45" : nextNumber = String(Int(newPlayerJersey)! + 5)
-                                default : nextNumber = String(Int(newPlayerJersey)! + 1)
-                            }
-                            newPlayerJersey = nextNumber
-                            newPlayerFullname = ""
-                            let playerToPersist = Player(context: viewContext)
-                            playerToPersist.team = teamname
-                            playerToPersist.fullname = newPlayerFullname
-                            playerToPersist.jersey = newPlayerJersey
-                            playerToPersist.id = UUID()
-                            do {
-                                try viewContext.save()
-                            } catch {
-                                // handle the Core Data error
-                            }
-                            
-                        }.buttonStyle(.borderedProminent)
-                    }
-                }.fixedSize(horizontal: false, vertical: false)
+        DisclosureGroup("Add Player") {
+            HStack {
+                TextField("##", text: $newPlayerJersey).frame(width: 45).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
+                TextField("Full Name", text: $newPlayerFullname).textFieldStyle(.roundedBorder)
             }
-        )
+            HStack {
+                Spacer()
+                Button("Save") {
+                    team.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
+                    var nextNumber: String
+                    switch newPlayerJersey {
+                    case "5", "15", "25", "35", "45" : nextNumber = String(Int(newPlayerJersey)! + 5)
+                    default : nextNumber = String(Int(newPlayerJersey)! + 1)
+                    }
+                    newPlayerJersey = nextNumber
+                    newPlayerFullname = ""
+                    let playerToPersist = Player(context: viewContext)
+                    playerToPersist.team = teamname
+                    playerToPersist.fullname = newPlayerFullname
+                    playerToPersist.jersey = newPlayerJersey
+                    playerToPersist.id = UUID()
+                    do {
+                        try viewContext.save()
+                    } catch {
+                        // handle the Core Data error
+                    }
+                    
+                }.buttonStyle(.borderedProminent)
+            }
+        }
     }
 }
 

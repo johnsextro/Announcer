@@ -86,103 +86,108 @@ struct ContentView: View {
                 TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls)
             }
             Divider()
-            HStack (alignment: .top){
-                VStack (alignment: .leading) {
-                    Text(teams.first(where: { $0.name == homeSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
-                    CreatePlayerHeader()
-                    Divider()
-                    ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
-                        ZStack {
-                            Rectangle().foregroundColor(determineRowColor(homeIndex, home: true)).frame(maxWidth: .infinity).opacity(0.40)
-                            HStack {
-                                Text(player.jerseyNumber).frame(width: 45)
-                                if player.edit {
-                                    TextField("", text: $homeTeam.first(where: { $0.id == player.id })!.fullName)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .padding(.leading, 5).font(.system(size: 20))
-                                        .disableAutocorrection(true)
-                                        .onSubmit {
-                                            for index in 0..<homeTeam.count {
-                                                if homeTeam[index].id == player.id {
-                                                    homeTeam[index].edit.toggle()
+            HStack {
+                Text(teams.first(where: { $0.name == homeSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
+                Text(teams.first(where: { $0.name == guestSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
+            }
+            ScrollView {
+                HStack (alignment: .top){
+                    VStack (alignment: .leading) {
+                        CreatePlayerHeader()
+                        Divider()
+                        ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
+                            ZStack {
+                                Rectangle().foregroundColor(determineRowColor(homeIndex, home: true)).frame(maxWidth: .infinity).opacity(0.40)
+                                HStack {
+                                    Text(player.jerseyNumber).frame(width: 45)
+                                    if player.edit {
+                                        TextField("", text: $homeTeam.first(where: { $0.id == player.id })!.fullName)
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                            .padding(.leading, 5).font(.system(size: 20))
+                                            .disableAutocorrection(true)
+                                            .onSubmit {
+                                                for index in 0..<homeTeam.count {
+                                                    if homeTeam[index].id == player.id {
+                                                        homeTeam[index].edit.toggle()
+                                                    }
                                                 }
                                             }
-                                        }
-                                } else {
-                                    Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
-                                        withAnimation {
-                                            for index in 0..<homeTeam.count {
-                                                if homeTeam[index].id == player.id {
-                                                    homeTeam[index].edit.toggle()
+                                    } else {
+                                        Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
+                                            withAnimation {
+                                                for index in 0..<homeTeam.count {
+                                                    if homeTeam[index].id == player.id {
+                                                        homeTeam[index].edit.toggle()
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
-                                    for index in 0..<homeTeam.count {
-                                        if homeTeam[index].id == player.id {
-                                            homeTeam[index].personalFouls+=1
+                                    Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
+                                        for index in 0..<homeTeam.count {
+                                            if homeTeam[index].id == player.id {
+                                                homeTeam[index].personalFouls+=1
+                                            }
                                         }
+                                        teamFouls["home"]![activeQuarter]+=1
                                     }
-                                    teamFouls["home"]![activeQuarter]+=1
-                                }
-                            }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
-                        }.fixedSize(horizontal: false, vertical: true)
+                                }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
+                            }.fixedSize(horizontal: false, vertical: true)
+                        }
                     }
-                }
-                VStack (alignment: .leading) {
-                    Text(teams.first(where: { $0.name == guestSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
-                    CreatePlayerHeader()
-                    Divider()
-                    ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
-                        ZStack {
-                            Rectangle().foregroundColor(determineRowColor(guestIndex, home: false)).frame(maxWidth: .infinity).opacity(0.40)
-                            HStack {
-                                Text(player.jerseyNumber).frame(width: 45)
-                                if player.edit {
-                                    TextField("", text: $guestTeam.first(where: { $0.id == player.id })!.fullName)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .padding(.leading, 5).font(.system(size: 20))
-                                        .disableAutocorrection(true)
-                                        .onSubmit {
-                                            for index in 0..<guestTeam.count {
-                                                if guestTeam[index].id == player.id {
-                                                    guestTeam[index].edit.toggle()
+                    VStack (alignment: .leading) {
+                        CreatePlayerHeader()
+                        Divider()
+                        ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
+                            ZStack {
+                                Rectangle().foregroundColor(determineRowColor(guestIndex, home: false)).frame(maxWidth: .infinity).opacity(0.40)
+                                HStack {
+                                    Text(player.jerseyNumber).frame(width: 45)
+                                    if player.edit {
+                                        TextField("", text: $guestTeam.first(where: { $0.id == player.id })!.fullName)
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                            .padding(.leading, 5).font(.system(size: 20))
+                                            .disableAutocorrection(true)
+                                            .onSubmit {
+                                                for index in 0..<guestTeam.count {
+                                                    if guestTeam[index].id == player.id {
+                                                        guestTeam[index].edit.toggle()
+                                                    }
                                                 }
                                             }
-                                        }
-                                } else {
-                                    Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
-                                        withAnimation {
-                                            for index in 0..<guestTeam.count {
-                                                if guestTeam[index].id == player.id {
-                                                    guestTeam[index].edit.toggle()
+                                    } else {
+                                        Text(player.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading).onLongPressGesture {
+                                            withAnimation {
+                                                for index in 0..<guestTeam.count {
+                                                    if guestTeam[index].id == player.id {
+                                                        guestTeam[index].edit.toggle()
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
-                                    for index in 0..<guestTeam.count {
-                                        if guestTeam[index].id == player.id {
-                                            guestTeam[index].personalFouls+=1
+                                    Text(String(player.personalFouls)).frame(width: 45).onTapGesture {
+                                        for index in 0..<guestTeam.count {
+                                            if guestTeam[index].id == player.id {
+                                                guestTeam[index].personalFouls+=1
+                                            }
                                         }
+                                        teamFouls["guest"]![activeQuarter]+=1
                                     }
-                                    teamFouls["guest"]![activeQuarter]+=1
-                                }
-                            }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
-                        }.fixedSize(horizontal: false, vertical: true)
+                                }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
+                            }.fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                 }
             }
             Spacer()
             Divider()
-            HStack (alignment: .top){
+            HStack {
                 AddPlayerView(team: $homeTeam, teamname: self.homeSelection)
+                Spacer().frame(width: 40)
                 AddPlayerView(team: $guestTeam, teamname: self.guestSelection)
-            }
-            Rectangle().frame(maxHeight: .infinity).foregroundColor(Color.gray)
+            }.padding(Edge.Set.Element.all, 15)
+            Spacer().frame(height: 150)
             Button("Reset Game") {
                 showingSheet.toggle()
             }
