@@ -46,7 +46,7 @@ struct AddPlayerView: View {
                     
                 }.buttonStyle(.borderedProminent)
             }
-        }
+        }.font(.title3)
     }
 }
 
