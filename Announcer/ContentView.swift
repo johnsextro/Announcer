@@ -21,6 +21,9 @@ struct ContentView: View {
     
     @State private var homeTeam: [Person] = []
     @State private var guestTeam: [Person] = []
+    @State private var showingSheet = true
+    @State private var homeSelection: String! = ""
+    @State private var guestSelection: String! = ""
     
     @State private var activeQuarter = 0
     @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
@@ -46,13 +49,46 @@ struct ContentView: View {
     
     var body: some View {
         VStack() {
+            Spacer().frame(height: 50)
+            .sheet(isPresented: $showingSheet) {
+                VStack(alignment: .center) {
+                    List {
+                        Picker("Select Home Team", selection: $homeSelection) {
+                            ForEach(teams, id: \.self) { team in
+                                Text(team.name!).tag(team.name)
+                            }
+                        }
+                    }
+                    List {
+                        Picker("Select Guest Team", selection: $guestSelection) {
+                            ForEach(teams, id: \.self) { team in
+                                Text(team.name!).tag(team.name)
+                            }
+                        }
+                    }
+                    Button("Load Teams") {
+                        homeTeam.removeAll()
+                        guestTeam.removeAll()
+                        for index in 0..<players.count {
+                            let player: Player = players[index]
+                            if (player.team == homeSelection) {
+                                homeTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+                            } else if (player.team == guestSelection) {
+                                guestTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+                            }
+                        }
+                        showingSheet = false
+                    }.buttonStyle(.borderedProminent)
+                    Spacer().frame(height: 600)
+                }
+            }
             HStack {
                 TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls)
             }
             Divider()
             HStack (alignment: .top){
                 VStack (alignment: .leading) {
-                    Text(teams[0].mascot!).frame(maxWidth: .infinity).font(.title)
+                    Text(teams.first(where: { $0.name == homeSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
                     CreatePlayerHeader()
                     Divider()
                     ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
@@ -64,7 +100,6 @@ struct ContentView: View {
                                     TextField("", text: $homeTeam.first(where: { $0.id == player.id })!.fullName)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .padding(.leading, 5).font(.system(size: 20))
-                                        .autocapitalization(.words)
                                         .disableAutocorrection(true)
                                         .onSubmit {
                                             for index in 0..<homeTeam.count {
@@ -97,7 +132,7 @@ struct ContentView: View {
                     }
                 }
                 VStack (alignment: .leading) {
-                    Text(teams[1].mascot!).frame(maxWidth: .infinity).font(.title)
+                    Text(teams.first(where: { $0.name == guestSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
                     CreatePlayerHeader()
                     Divider()
                     ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
@@ -109,7 +144,6 @@ struct ContentView: View {
                                     TextField("", text: $guestTeam.first(where: { $0.id == player.id })!.fullName)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .padding(.leading, 5).font(.system(size: 20))
-                                        .autocapitalization(.words)
                                         .disableAutocorrection(true)
                                         .onSubmit {
                                             for index in 0..<guestTeam.count {
@@ -145,18 +179,12 @@ struct ContentView: View {
             Spacer()
             Divider()
             HStack (alignment: .top){
-                AddPlayerView(team: $homeTeam)
-                AddPlayerView(team: $guestTeam)
+                AddPlayerView(team: $homeTeam, teamname: self.homeSelection)
+                AddPlayerView(team: $guestTeam, teamname: self.guestSelection)
             }
             Rectangle().frame(maxHeight: .infinity).foregroundColor(Color.gray)
-        }.onAppear {
-            for index in 0..<players.count {
-                let player: Player = players[index]
-                if (player.team == "Webster") {
-                    homeTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
-                } else {
-                    guestTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
-                }
+            Button("Reset Game") {
+                showingSheet.toggle()
             }
         }
     }

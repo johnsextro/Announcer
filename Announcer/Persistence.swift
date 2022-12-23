@@ -29,7 +29,7 @@ struct PersistenceController {
             let homeplayer = Player(context: viewContext)
             homeplayer.id = UUID()
             homeplayer.jersey = "\(index)"
-            homeplayer.fullname = "Player Name\(index)"
+            homeplayer.fullname = "Webster Name\(index)"
             homeplayer.team = "Webster"
         }
 
@@ -37,8 +37,16 @@ struct PersistenceController {
             let guestplayer = Player(context: viewContext)
             guestplayer.id = UUID()
             guestplayer.jersey = "\(index)"
-            guestplayer.fullname = "Player Name\(index)"
+            guestplayer.fullname = "Fontbonne Name\(index)"
             guestplayer.team = "Fontbonne"
+        }
+        
+        for index in 0..<15 {
+            let umslplayer = Player(context: viewContext)
+            umslplayer.id = UUID()
+            umslplayer.jersey = "\(index)"
+            umslplayer.fullname = "UMSL Name\(index)"
+            umslplayer.team = "UMSL"
         }
         
         let webstermen = Team(context: viewContext)
@@ -54,6 +62,13 @@ struct PersistenceController {
         fontbonnemen.name = "Fontbonne"
         fontbonnemen.year = 2022
         fontbonnemen.mascot = "Griffins"
+
+        let umslmen = Team(context: viewContext)
+        umslmen.id = UUID()
+        umslmen.men = true
+        umslmen.name = "UMSL"
+        umslmen.year = 2022
+        umslmen.mascot = "Tritons"
         
         do {
             try viewContext.save()
