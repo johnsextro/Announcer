@@ -82,18 +82,24 @@ struct ContentView: View {
                     Spacer().frame(height: 600)
                 }
             }
-            HStack {
-                TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls)
-            }
-            Divider()
-            HStack {
-                Text(teams.first(where: { $0.name == homeSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
-                Text(teams.first(where: { $0.name == guestSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
+            Group {
+                HStack {
+                    TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls)
+                }
+                Divider()
+                HStack {
+                    Text(teams.first(where: { $0.name == homeSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
+                    Text(teams.first(where: { $0.name == guestSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
+                }
+                HStack {
+                    CreatePlayerHeader()
+                    CreatePlayerHeader()
+                    
+                }
             }
             ScrollView {
                 HStack (alignment: .top){
                     VStack (alignment: .leading) {
-                        CreatePlayerHeader()
                         Divider()
                         ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
                             ZStack {
@@ -136,7 +142,6 @@ struct ContentView: View {
                         }
                     }
                     VStack (alignment: .leading) {
-                        CreatePlayerHeader()
                         Divider()
                         ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
                             ZStack {
