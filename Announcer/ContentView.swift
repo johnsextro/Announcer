@@ -37,7 +37,7 @@ struct ContentView: View {
             Text("##").frame(width: 45)
             Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
             Text("PF").frame(width: 45)
-        }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
+        }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue).font(.title3)
     }
     
     fileprivate func determineRowColor(_ homeRowCount: Int, home: Bool) -> Color {
@@ -207,7 +207,7 @@ struct ContentView: View {
                         }
                     }
                 }
-            }
+            }.font(.title3)
             Group {
                 Spacer()
                 Divider()

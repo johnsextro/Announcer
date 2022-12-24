@@ -41,7 +41,7 @@ struct TeamFoulsView: View {
     
     var body: some View {
         
-        CreateTeamFoulsGrid(teamFouls["home"]!)
+        CreateTeamFoulsGrid(teamFouls["home"]!).font(.title3)
         VStack {
             Button("Next") {
                 withAnimation {
@@ -49,7 +49,7 @@ struct TeamFoulsView: View {
                 }
             }.buttonStyle(.bordered)
         }
-        CreateTeamFoulsGrid(teamFouls["guest"]!)
+        CreateTeamFoulsGrid(teamFouls["guest"]!).font(.title3)
         
     }
 }
