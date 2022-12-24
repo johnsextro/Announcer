@@ -48,62 +48,24 @@ struct ContentView: View {
         return rowColor
     }
     
-    
+    fileprivate func loadPlayers() {
+        homeTeam.removeAll()
+        guestTeam.removeAll()
+        for index in 0..<players.count {
+            let player: Player = players[index]
+            if (player.team == homeSelection) {
+                homeTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+            } else if (player.team == guestSelection) {
+                guestTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+            }
+        }
+    }
     
     var body: some View {
         VStack() {
             Spacer().frame(height: 50)
-                .sheet(isPresented: $showingSheet) {
-                    Form {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("Format")
-                                Spacer().frame(width: 100)
-                                List {
-                                    Picker("Format", selection: $mensGame) {
-                                        Text("Men").tag(true)
-                                        Text("Women").tag(false)
-                                    }.pickerStyle(.segmented).frame(width: 400)
-                                }.onChange(of: self.mensGame) { newValue in
-                                    if (newValue) {
-                                        teamFouls["home"] = [0,0,0]
-                                        teamFouls["guest"] = [0,0,0]
-                                    } else {
-                                        teamFouls["home"] = [0,0,0,0,0]
-                                        teamFouls["guest"] = [0,0,0,0,0]
-                                    }
-                                }
-                            }
-                            List {
-                                Picker("Select Home Team", selection: $homeSelection) {
-                                    ForEach(teams, id: \.self) { team in
-                                        Text(team.name!).tag(team.name)
-                                    }
-                                }.frame(width: 550)
-                            }
-                            List {
-                                Picker("Select Guest Team", selection: $guestSelection) {
-                                    ForEach(teams, id: \.self) { team in
-                                        Text(team.name!).tag(team.name)
-                                    }
-                                }.frame(width: 550)
-                            }
-                            Spacer().frame(height: 60)
-                            Button("Load Teams") {
-                                homeTeam.removeAll()
-                                guestTeam.removeAll()
-                                for index in 0..<players.count {
-                                    let player: Player = players[index]
-                                    if (player.team == homeSelection) {
-                                        homeTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
-                                    } else if (player.team == guestSelection) {
-                                        guestTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
-                                    }
-                                }
-                                showingSheet = false
-                            }.buttonStyle(.borderedProminent)
-                        }
-                    }
+                .sheet(isPresented: $showingSheet, onDismiss: loadPlayers) {
+                    NewGameSheetView(mensGame: $mensGame, teamFouls: $teamFouls, homeSelection: $homeSelection, guestSelection: $guestSelection)
                 }
             Group {
                 HStack {
