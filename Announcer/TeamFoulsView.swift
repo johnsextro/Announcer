@@ -11,16 +11,23 @@ struct TeamFoulsView: View {
     
     @Binding var activeQuarter: Int
     @Binding var teamFouls: [String: [Int]]
+    var mensgame: Bool
     
     fileprivate func CreateTeamFoulsGrid(_ teamFoulsByQuarter: [Int]) -> some View {
         return Grid(alignment: .center, horizontalSpacing: 10, verticalSpacing: 15) {
             GridRow {
                 Text("")
-                Text("Q1")
-                Text("Q2")
-                Text("Q3")
-                Text("Q4")
-                Text("OT")
+                if (mensgame) {
+                    Text("H1")
+                    Text("H2")
+                    Text("OT")
+                } else {
+                    Text("Q1")
+                    Text("Q2")
+                    Text("Q3")
+                    Text("Q4")
+                    Text("OT")
+                }
             }
             Divider()
             GridRow {
@@ -36,7 +43,7 @@ struct TeamFoulsView: View {
         
         CreateTeamFoulsGrid(teamFouls["home"]!)
         VStack {
-            Button("Next Qtr") {
+            Button("Next") {
                 withAnimation {
                     self.activeQuarter+=1
                 }
@@ -53,7 +60,7 @@ struct TeamFoulsView_Previews: PreviewProvider {
 
     static var previews: some View {
         HStack {
-            TeamFoulsView(activeQuarter: $previewactiveQuarter, teamFouls: $previewteamFouls)
+            TeamFoulsView(activeQuarter: $previewactiveQuarter, teamFouls: $previewteamFouls, mensgame: true)
         }
     }
 }

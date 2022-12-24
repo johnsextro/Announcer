@@ -27,7 +27,7 @@ struct ContentView: View {
     @State private var mensGame: Bool = true
     
     @State private var activeQuarter = 0
-    @State private var teamFouls = ["home": [0,0,0,0,0], "guest": [0,0,0,0,0]]
+    @State private var teamFouls = ["home": [0,0,0], "guest": [0,0,0]]
     
     @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
@@ -48,6 +48,8 @@ struct ContentView: View {
         return rowColor
     }
     
+    
+    
     var body: some View {
         VStack() {
             Spacer().frame(height: 50)
@@ -62,6 +64,14 @@ struct ContentView: View {
                                         Text("Men").tag(true)
                                         Text("Women").tag(false)
                                     }.pickerStyle(.segmented).frame(width: 400)
+                                }.onChange(of: self.mensGame) { newValue in
+                                    if (newValue) {
+                                        teamFouls["home"] = [0,0,0]
+                                        teamFouls["guest"] = [0,0,0]
+                                    } else {
+                                        teamFouls["home"] = [0,0,0,0,0]
+                                        teamFouls["guest"] = [0,0,0,0,0]
+                                    }
                                 }
                             }
                             List {
@@ -97,7 +107,7 @@ struct ContentView: View {
                 }
             Group {
                 HStack {
-                    TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls)
+                    TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls, mensgame: self.mensGame)
                 }
                 Divider()
                 HStack {
