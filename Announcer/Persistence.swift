@@ -51,7 +51,7 @@ struct PersistenceController {
         
         let webstermen = Team(context: viewContext)
         webstermen.id = UUID()
-        webstermen.men = true
+        webstermen.men = false
         webstermen.name = "Webster"
         webstermen.year = 2023
         webstermen.mascot = "Gorloks"
