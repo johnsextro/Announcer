@@ -37,7 +37,7 @@ struct ContentView: View {
             Text("##").frame(width: 45)
             Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
             Text("PF").frame(width: 45)
-        }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue).font(.title3)
+        }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
     }
     
     fileprivate func determineRowColor(_ homeRowCount: Int, home: Bool) -> Color {
@@ -54,9 +54,9 @@ struct ContentView: View {
         for index in 0..<players.count {
             let player: Player = players[index]
             if (player.team == homeSelection) {
-                homeTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+                homeTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
             } else if (player.team == guestSelection) {
-                guestTeam.append(Person(fullName: player.fullname!, jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+                guestTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
             }
         }
     }
@@ -122,7 +122,7 @@ struct ContentView: View {
                                         }
                                         teamFouls["home"]![activeQuarter]+=1
                                     }
-                                }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
+                                }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 3)
                             }.fixedSize(horizontal: false, vertical: true)
                         }
                     }
@@ -164,12 +164,12 @@ struct ContentView: View {
                                         }
                                         teamFouls["guest"]![activeQuarter]+=1
                                     }
-                                }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 5)
+                                }.frame(maxWidth: .infinity).padding(Edge.Set.Element.all, 3)
                             }.fixedSize(horizontal: false, vertical: true)
                         }
                     }
                 }
-            }.font(.title3)
+            }
             Group {
                 Spacer()
                 Divider()
@@ -178,7 +178,7 @@ struct ContentView: View {
                     Spacer().frame(width: 40)
                     AddPlayerView(team: $guestTeam, teamname: self.guestSelection)
                 }.padding(Edge.Set.Element.all, 15)
-                Spacer().frame(height: 150)
+                Spacer().frame(height: 25)
                 Button("Reset Game") {
                     showingSheet.toggle()
                 }

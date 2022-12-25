@@ -29,7 +29,7 @@ struct PersistenceController {
             let homeplayer = Player(context: viewContext)
             homeplayer.id = UUID()
             homeplayer.jersey = "\(index)"
-            homeplayer.fullname = "Webster Name\(index)"
+            homeplayer.name = "Webster Name\(index)"
             homeplayer.team = "Webster"
         }
 
@@ -37,7 +37,7 @@ struct PersistenceController {
             let guestplayer = Player(context: viewContext)
             guestplayer.id = UUID()
             guestplayer.jersey = "\(index)"
-            guestplayer.fullname = "Fontbonne Name\(index)"
+            guestplayer.name = "Fontbonne Name\(index)"
             guestplayer.team = "Fontbonne"
         }
         
@@ -45,7 +45,7 @@ struct PersistenceController {
             let umslplayer = Player(context: viewContext)
             umslplayer.id = UUID()
             umslplayer.jersey = "\(index)"
-            umslplayer.fullname = "UMSL Name\(index)"
+            umslplayer.name = "UMSL Name\(index)"
             umslplayer.team = "UMSL"
         }
         

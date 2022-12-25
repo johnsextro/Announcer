@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G320" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-    </entity>
+    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class"/>
     <entity name="Player" representedClassName="Player" syncable="YES" codeGenerationType="class">
-        <attribute name="fullname" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="jersey" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String" defaultValueString="missing"/>
         <attribute name="team" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Team" representedClassName="Team" syncable="YES" codeGenerationType="class">

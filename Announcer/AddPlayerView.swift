@@ -20,7 +20,7 @@ struct AddPlayerView: View {
         DisclosureGroup("Add Player") {
             HStack {
                 TextField("##", text: $newPlayerJersey).frame(width: 45).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
-                TextField("Full Name", text: $newPlayerFullname).textFieldStyle(.roundedBorder)
+                TextField("Full Name", text: $newPlayerFullname).textFieldStyle(.roundedBorder).disableAutocorrection(true)
             }
             HStack {
                 Spacer()
@@ -31,11 +31,9 @@ struct AddPlayerView: View {
                     case "5", "15", "25", "35", "45" : nextNumber = String(Int(newPlayerJersey)! + 5)
                     default : nextNumber = String(Int(newPlayerJersey)! + 1)
                     }
-                    newPlayerJersey = nextNumber
-                    newPlayerFullname = ""
                     let playerToPersist = Player(context: viewContext)
                     playerToPersist.team = teamname
-                    playerToPersist.fullname = newPlayerFullname
+                    playerToPersist.name = newPlayerFullname
                     playerToPersist.jersey = newPlayerJersey
                     playerToPersist.id = UUID()
                     do {
@@ -43,6 +41,8 @@ struct AddPlayerView: View {
                     } catch {
                         // handle the Core Data error
                     }
+                    newPlayerJersey = nextNumber
+                    newPlayerFullname = ""
                     
                 }.buttonStyle(.borderedProminent)
             }
