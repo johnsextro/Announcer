@@ -89,8 +89,8 @@ struct NewGameSheetView: View {
                             Text("Women").tag(false)
                         }.pickerStyle(.segmented).frame(width: 400)
                     }
-                    TextField("School Name", text: $schoolName).textFieldStyle(.roundedBorder)
-                    TextField("Mascot", text: $mascot).textFieldStyle(.roundedBorder)
+                    TextField("School Name", text: $schoolName).textFieldStyle(.roundedBorder).disableAutocorrection(true)
+                    TextField("Mascot", text: $mascot).textFieldStyle(.roundedBorder).disableAutocorrection(true)
                     TextField("Year", text: $year).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
                     Button("Save Team") {
                         let team = Team(context: viewContext)
