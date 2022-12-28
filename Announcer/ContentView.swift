@@ -61,7 +61,16 @@ struct ContentView: View {
         }
     }
     
-    private func foulEvent(playerId: ((UUID) -> Void)) {
+    private func foulDecrement(playerId: (UUID)) {
+        for index in 0..<homeTeam.count {
+            if homeTeam[index].id == playerId {
+                homeTeam[index].personalFouls-=1
+            }
+        }
+        teamFouls["home"]![activeQuarter]-=1
+    }
+
+    private func foulIncrement(playerId: (UUID)) {
         for index in 0..<homeTeam.count {
             if homeTeam[index].id == playerId {
                 homeTeam[index].personalFouls+=1
@@ -96,7 +105,7 @@ struct ContentView: View {
                     Divider()
                     List {
                         ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
-                            PlayerRow(playerItem: player, foulEvent: self.foulEvent(playerId: player.id))
+                            PlayerRow(playerItem: player, foulDecrement: {_ in self.foulDecrement(playerId: player.id)}, foulIncrement: {_ in self.foulIncrement(playerId: player.id)})
                                 .listRowBackground(determineRowColor(homeIndex, home: true))
                             //                            ZStack {
                             //                                Rectangle().foregroundColor(determineRowColor(homeIndex, home: true)).frame(maxWidth: .infinity).opacity(0.40)

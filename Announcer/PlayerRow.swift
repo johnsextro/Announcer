@@ -10,17 +10,20 @@ import CoreData
 
 struct PlayerRow : View {
     let playerItem: Person
-    var foulEvent: ((UUID) -> Void)
+    @State var foulDecrement:((UUID) -> Void)
+    @State var foulIncrement:((UUID) -> Void)
 
     var body: some View {
         HStack {
             Text(playerItem.jerseyNumber).frame(width: 45)
             Text(playerItem.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, alignment: .leading)
             Image(systemName: "minus.square.fill").onTapGesture {
-                foulEvent(playerItem.id)
+                foulDecrement(playerItem.id)
             }
             Text(String(playerItem.personalFouls))
-            Image(systemName: "plus.square.fill")
+            Image(systemName: "plus.square.fill").onTapGesture {
+                foulIncrement(playerItem.id)
+            }
         }
     }
 }
