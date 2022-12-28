@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0809829F295B6ECA000AB87A /* PlayerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0809829E295B6ECA000AB87A /* PlayerRow.swift */; };
 		083B733C292FE12C00B3B727 /* AnnouncerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083B733B292FE12C00B3B727 /* AnnouncerApp.swift */; };
 		083B733E292FE12C00B3B727 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083B733D292FE12C00B3B727 /* ContentView.swift */; };
 		083B7340292FE12E00B3B727 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 083B733F292FE12E00B3B727 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0809829E295B6ECA000AB87A /* PlayerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRow.swift; sourceTree = "<group>"; };
 		083B7338292FE12C00B3B727 /* Announcer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Announcer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		083B733B292FE12C00B3B727 /* AnnouncerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncerApp.swift; sourceTree = "<group>"; };
 		083B733D292FE12C00B3B727 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				08A884AB29537A4F00D63A29 /* Person.swift */,
 				08A884AD29537B9800D63A29 /* TeamFoulsView.swift */,
 				08A884AF2953E22A00D63A29 /* AddPlayerView.swift */,
+				0809829E295B6ECA000AB87A /* PlayerRow.swift */,
 			);
 			path = Announcer;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 			files = (
 				08A884AC29537A4F00D63A29 /* Person.swift in Sources */,
 				0869256A29577BEC00F0939B /* NewGameSheetView.swift in Sources */,
+				0809829F295B6ECA000AB87A /* PlayerRow.swift in Sources */,
 				083B7345292FE12E00B3B727 /* Persistence.swift in Sources */,
 				083B733E292FE12C00B3B727 /* ContentView.swift in Sources */,
 				08A884AE29537B9800D63A29 /* TeamFoulsView.swift in Sources */,
