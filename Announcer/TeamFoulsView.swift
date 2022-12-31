@@ -45,7 +45,7 @@ struct TeamFoulsView: View {
         VStack {
             Button("Next") {
                 withAnimation {
-                    self.activeQuarter+=1
+                    activeQuarter+=1
                 }
             }.buttonStyle(.bordered)
         }
