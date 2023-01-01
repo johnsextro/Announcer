@@ -96,7 +96,7 @@ struct ContentView: View {
                         ForEach(Array(zip(homeTeam.indices, homeTeam)), id: \.0) { homeIndex, player in
                             PlayerRow(playerItem: player, home: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
                                 .listRowBackground(determineRowColor(homeIndex, home: true))
-                        }.fixedSize(horizontal: false, vertical: true)
+                        }.onDelete { deleteHomePlayer(at: $0) }
                     }.listStyle(.inset)
                 }
                 VStack (alignment: .leading) {
