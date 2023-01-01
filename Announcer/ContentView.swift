@@ -59,6 +59,13 @@ struct ContentView: View {
                 guestTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
             }
         }
+        homeTeam = homeTeam.sorted(using: homeSortOrder)
+        guestTeam = guestTeam.sorted(using: guestSortOrder)
+        
+    }
+    
+    private func deleteHomePlayer(at offsets: IndexSet) {
+        homeTeam.remove(atOffsets: offsets)
     }
     
     var body: some View {
@@ -86,7 +93,7 @@ struct ContentView: View {
                 VStack (alignment: .leading) {
                     Divider()
                     List {
-                        ForEach(Array(zip(homeTeam.indices, homeTeam.sorted(using: homeSortOrder))), id: \.0) { homeIndex, player in
+                        ForEach(Array(zip(homeTeam.indices, homeTeam)), id: \.0) { homeIndex, player in
                             PlayerRow(playerItem: player, home: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
                                 .listRowBackground(determineRowColor(homeIndex, home: true))
                         }.fixedSize(horizontal: false, vertical: true)
@@ -95,7 +102,7 @@ struct ContentView: View {
                 VStack (alignment: .leading) {
                     Divider()
                     List {
-                        ForEach(Array(zip(guestTeam.indices, guestTeam.sorted(using: guestSortOrder))), id: \.0) { guestIndex, player in
+                        ForEach(Array(zip(guestTeam.indices, guestTeam)), id: \.0) { guestIndex, player in
                             PlayerRow(playerItem: player, home: false, team: $guestTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
                                 .listRowBackground(determineRowColor(guestIndex, home: true))
                         }.fixedSize(horizontal: false, vertical: true)
