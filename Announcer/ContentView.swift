@@ -64,11 +64,14 @@ struct ContentView: View {
         
     var body: some View {
         VStack() {
-            Spacer().frame(height: 20)
+            Spacer().frame(height: 10)
                 .sheet(isPresented: $showingSheet, onDismiss: loadPlayers) {
                     NewGameSheetView(mensGame: $mensGame, teamFouls: $teamFouls, homeSelection: $homeSelection, guestSelection: $guestSelection)
                 }
             Group {
+                Button("Reset Game") {
+                    showingSheet.toggle()
+                }
                 HStack {
                     TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls, mensgame: self.mensGame)
                 }
@@ -106,17 +109,12 @@ struct ContentView: View {
                 }
             }
             Group {
-                Spacer()
                 Divider()
                 HStack {
                     AddPlayerView(team: $homeTeam, teamname: self.homeSelection)
                     Spacer().frame(width: 40)
                     AddPlayerView(team: $guestTeam, teamname: self.guestSelection)
                 }.padding(Edge.Set.Element.all, 15)
-                Spacer().frame(height: 5)
-                Button("Reset Game") {
-                    showingSheet.toggle()
-                }
             }
         }
     }
