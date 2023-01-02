@@ -29,8 +29,7 @@ struct ContentView: View {
     @State private var activeQuarter = 0
     @State private var teamFouls = ["home": [0,0,0], "guest": [0,0,0]]
     
-    @State private var homeSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
-    @State private var guestSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
+    @State private var teamSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     
     fileprivate func CreatePlayerHeader() -> some View {
         return HStack (alignment: .top) {
@@ -59,15 +58,10 @@ struct ContentView: View {
                 guestTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
             }
         }
-        homeTeam = homeTeam.sorted(using: homeSortOrder)
-        guestTeam = guestTeam.sorted(using: guestSortOrder)
+        homeTeam = homeTeam.sorted(using: teamSortOrder)
+        guestTeam = guestTeam.sorted(using: teamSortOrder)
+    }
         
-    }
-    
-    private func deleteHomePlayer(at offsets: IndexSet) {
-        homeTeam.remove(atOffsets: offsets)
-    }
-    
     var body: some View {
         VStack() {
             Spacer().frame(height: 50)
@@ -93,19 +87,21 @@ struct ContentView: View {
                 VStack (alignment: .leading) {
                     Divider()
                     List {
-                        ForEach(Array(zip(homeTeam.indices, homeTeam)), id: \.0) { homeIndex, player in
+                        ForEach(homeTeam) { player in
                             PlayerRow(playerItem: player, home: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
-                                .listRowBackground(determineRowColor(homeIndex, home: true))
-                        }.onDelete { deleteHomePlayer(at: $0) }
+                        }.onDelete { indexSet in
+                            homeTeam.remove(atOffsets: indexSet)
+                        }
                     }.listStyle(.inset)
                 }
                 VStack (alignment: .leading) {
                     Divider()
                     List {
-                        ForEach(Array(zip(guestTeam.indices, guestTeam)), id: \.0) { guestIndex, player in
+                        ForEach(guestTeam) { player in
                             PlayerRow(playerItem: player, home: false, team: $guestTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
-                                .listRowBackground(determineRowColor(guestIndex, home: true))
-                        }.fixedSize(horizontal: false, vertical: true)
+                        }.onDelete { indexSet in
+                            guestTeam.remove(atOffsets: indexSet)
+                        }
                     }.listStyle(.inset)
                 }
             }

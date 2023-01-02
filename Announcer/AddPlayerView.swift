@@ -15,6 +15,7 @@ struct AddPlayerView: View {
     
     @Binding var team: [Person]
     var teamname: String
+    var teamSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     
     var body: some View {
         DisclosureGroup("Add Player") {
@@ -43,6 +44,7 @@ struct AddPlayerView: View {
                     }
                     newPlayerJersey = nextNumber
                     newPlayerFullname = ""
+                    team = team.sorted(using: teamSortOrder)
                     
                 }.buttonStyle(.borderedProminent)
             }
