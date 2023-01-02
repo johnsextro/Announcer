@@ -64,7 +64,7 @@ struct ContentView: View {
         
     var body: some View {
         VStack() {
-            Spacer().frame(height: 50)
+            Spacer().frame(height: 20)
                 .sheet(isPresented: $showingSheet, onDismiss: loadPlayers) {
                     NewGameSheetView(mensGame: $mensGame, teamFouls: $teamFouls, homeSelection: $homeSelection, guestSelection: $guestSelection)
                 }
@@ -113,7 +113,7 @@ struct ContentView: View {
                     Spacer().frame(width: 40)
                     AddPlayerView(team: $guestTeam, teamname: self.guestSelection)
                 }.padding(Edge.Set.Element.all, 15)
-                Spacer().frame(height: 25)
+                Spacer().frame(height: 5)
                 Button("Reset Game") {
                     showingSheet.toggle()
                 }
