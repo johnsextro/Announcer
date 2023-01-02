@@ -17,14 +17,13 @@ struct AddPlayerView: View {
     var teamname: String
     var teamSortOrder = [KeyPathComparator(\Person.jerseyNumber)]
     
+    
     var body: some View {
+        
         DisclosureGroup("Add Player") {
-            HStack {
+            VStack (alignment: .leading) {
                 TextField("##", text: $newPlayerJersey).frame(width: 45).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
                 TextField("Full Name", text: $newPlayerFullname).textFieldStyle(.roundedBorder).disableAutocorrection(true)
-            }
-            HStack {
-                Spacer()
                 Button("Save") {
                     team.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
                     var nextNumber: String
@@ -45,10 +44,9 @@ struct AddPlayerView: View {
                     newPlayerJersey = nextNumber
                     newPlayerFullname = ""
                     team = team.sorted(using: teamSortOrder)
-                    
                 }.buttonStyle(.borderedProminent)
             }
-        }.font(.title3)
+        }
     }
 }
 
