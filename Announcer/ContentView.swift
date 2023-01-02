@@ -33,10 +33,10 @@ struct ContentView: View {
     
     fileprivate func CreatePlayerHeader() -> some View {
         return HStack (alignment: .top) {
-            Text("##").frame(width: 75)
-            Text("Name").frame(minWidth: 100, idealWidth: 200, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
-            Text("PF").frame(width: 90)
-        }.padding(Edge.Set.Element.all, 5).foregroundColor(Color.blue)
+            Text("##").frame(width: 45)
+            Text("Name").frame(minWidth: 100, idealWidth: 285, maxWidth: 400, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .leading)
+            Text("PF").frame(width: 75)
+        }.foregroundColor(Color.blue)
     }
     
     fileprivate func determineRowColor(_ homeRowCount: Int, home: Bool) -> Color {
@@ -77,33 +77,30 @@ struct ContentView: View {
                 }
                 Divider()
                 HStack {
-                    Text(teams.first(where: { $0.name == homeSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
-                    Text(teams.first(where: { $0.name == guestSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title)
-                }
-                HStack {
-                    CreatePlayerHeader()
-                    CreatePlayerHeader()
-                    
+                    Text(teams.first(where: { $0.name == homeSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title2)
+                    Text(teams.first(where: { $0.name == guestSelection})?.mascot ?? "").frame(maxWidth: .infinity).font(.title2)
                 }
             }
             HStack (alignment: .top){
                 VStack (alignment: .leading) {
-                    Divider()
                     List {
-                        ForEach(homeTeam) { player in
-                            PlayerRow(playerItem: player, home: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
-                        }.onDelete { indexSet in
-                            homeTeam.remove(atOffsets: indexSet)
+                        Section(header: CreatePlayerHeader()) {
+                            ForEach(homeTeam) { player in
+                                PlayerRow(playerItem: player, home: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
+                            }.onDelete { indexSet in
+                                homeTeam.remove(atOffsets: indexSet)
+                            }
                         }
                     }.listStyle(.inset)
                 }
                 VStack (alignment: .leading) {
-                    Divider()
                     List {
-                        ForEach(guestTeam) { player in
-                            PlayerRow(playerItem: player, home: false, team: $guestTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
-                        }.onDelete { indexSet in
-                            guestTeam.remove(atOffsets: indexSet)
+                        Section(header: CreatePlayerHeader()) {
+                            ForEach(guestTeam) { player in
+                                PlayerRow(playerItem: player, home: false, team: $guestTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
+                            }.onDelete { indexSet in
+                                guestTeam.remove(atOffsets: indexSet)
+                            }
                         }
                     }.listStyle(.inset)
                 }
