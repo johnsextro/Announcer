@@ -36,6 +36,18 @@ struct PlayerRow : View {
             Image(systemName: "plus.square.fill").onTapGesture {
                 foulEvent(home: home, incValue: 1)
             }
+        }.swipeActions(allowsFullSwipe: false) {
+            Button {
+
+            } label: {
+                Label("Mute", systemImage: "pencil")
+            }
+            .tint(.orange)
+            
+            Button(role: .destructive) {
+            } label: {
+                Label("Delete", systemImage: "trash.fill")
+            }
         }
     }
 }

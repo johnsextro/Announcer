@@ -24,7 +24,7 @@ struct ContentView: View {
     @State private var showingSheet = true
     @State private var homeSelection: String! = ""
     @State private var guestSelection: String! = ""
-    @State private var mensGame: Bool = true
+    @State private var isMensGame: Bool = true
     
     @State private var activeQuarter = 0
     @State private var teamFouls = ["home": [0,0,0], "guest": [0,0,0]]
@@ -61,19 +61,19 @@ struct ContentView: View {
         homeTeam = homeTeam.sorted(using: teamSortOrder)
         guestTeam = guestTeam.sorted(using: teamSortOrder)
     }
-        
+    
     var body: some View {
         VStack() {
             Spacer().frame(height: 10)
                 .sheet(isPresented: $showingSheet, onDismiss: loadPlayers) {
-                    NewGameSheetView(mensGame: $mensGame, teamFouls: $teamFouls, homeSelection: $homeSelection, guestSelection: $guestSelection)
+                    NewGameSheetView(mensGame: $isMensGame, teamFouls: $teamFouls, homeSelection: $homeSelection, guestSelection: $guestSelection)
                 }
             Group {
                 Button("Reset Game") {
                     showingSheet.toggle()
                 }
                 HStack {
-                    TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls, mensgame: self.mensGame)
+                    TeamFoulsView(activeQuarter: $activeQuarter, teamFouls: $teamFouls, mensgame: self.isMensGame)
                 }
                 Divider()
                 HStack {
