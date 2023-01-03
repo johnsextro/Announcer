@@ -40,7 +40,7 @@ struct AddPlayerView: View {
                     } catch {
                         // handle the Core Data error
                     }
-                    team.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, id: playerToPersist.id!, personalFouls: 0, edit: false))
+                    team.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, id: playerToPersist.id!, personalFouls: 0))
                     newPlayerJersey = nextNumber
                     newPlayerFullname = ""
                     team = team.sorted(using: teamSortOrder)

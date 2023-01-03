@@ -53,9 +53,9 @@ struct ContentView: View {
         for index in 0..<players.count {
             let player: Player = players[index]
             if (player.team == homeSelection) {
-                homeTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, id: player.id!, personalFouls: 0, edit: false))
+                homeTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, id: player.id!, personalFouls: 0))
             } else if (player.team == guestSelection) {
-                guestTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, id: player.id!, personalFouls: 0, edit: false))
+                guestTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, id: player.id!, personalFouls: 0))
             }
         }
         homeTeam = homeTeam.sorted(using: teamSortOrder)

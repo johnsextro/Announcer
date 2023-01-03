@@ -12,5 +12,4 @@ struct Person: Identifiable {
     var jerseyNumber: String
     var id: UUID
     var personalFouls: Int
-    var edit: Bool
 }
