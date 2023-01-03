@@ -100,6 +100,11 @@ struct NewGameSheetView: View {
                         team.year = Int16(year)!
                         team.men = mensTeam
                         
+                        do {
+                            try viewContext.save()
+                        } catch {
+                            
+                        }
                         schoolName = ""
                         mascot = ""
                         year = ""

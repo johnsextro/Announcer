@@ -25,7 +25,6 @@ struct AddPlayerView: View {
                 TextField("##", text: $newPlayerJersey).frame(width: 45).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
                 TextField("Full Name", text: $newPlayerFullname).textFieldStyle(.roundedBorder).disableAutocorrection(true)
                 Button("Save") {
-                    team.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, personalFouls: 0, edit: false))
                     var nextNumber: String
                     switch newPlayerJersey {
                     case "5", "15", "25", "35", "45" : nextNumber = String(Int(newPlayerJersey)! + 5)
@@ -41,6 +40,7 @@ struct AddPlayerView: View {
                     } catch {
                         // handle the Core Data error
                     }
+                    team.append(Person(fullName: newPlayerFullname, jerseyNumber: newPlayerJersey, id: playerToPersist.id!, personalFouls: 0, edit: false))
                     newPlayerJersey = nextNumber
                     newPlayerFullname = ""
                     team = team.sorted(using: teamSortOrder)

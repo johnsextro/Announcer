@@ -2,8 +2,8 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G320" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class"/>
     <entity name="Player" representedClassName="Player" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="jersey" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" defaultValueString="0CF044A3-333C-4B22-8FEB-F68B004B6C96" usesScalarValueType="YES"/>
+        <attribute name="jersey" attributeType="String" defaultValueString=""/>
         <attribute name="name" attributeType="String" defaultValueString="missing"/>
         <attribute name="team" optional="YES" attributeType="String"/>
     </entity>

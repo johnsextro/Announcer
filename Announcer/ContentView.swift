@@ -53,9 +53,9 @@ struct ContentView: View {
         for index in 0..<players.count {
             let player: Player = players[index]
             if (player.team == homeSelection) {
-                homeTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+                homeTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, id: player.id!, personalFouls: 0, edit: false))
             } else if (player.team == guestSelection) {
-                guestTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, personalFouls: 0, edit: false))
+                guestTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, id: player.id!, personalFouls: 0, edit: false))
             }
         }
         homeTeam = homeTeam.sorted(using: teamSortOrder)
@@ -86,7 +86,7 @@ struct ContentView: View {
                     List {
                         Section(header: CreatePlayerHeader()) {
                             ForEach(homeTeam) { player in
-                                PlayerRow(playerItem: player, home: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
+                                PlayerRow(playerItem: player, home: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls, player: players.first(where: {$0.id == player.id})!)
                             }.onDelete { indexSet in
                                 homeTeam.remove(atOffsets: indexSet)
                             }
@@ -97,7 +97,7 @@ struct ContentView: View {
                     List {
                         Section(header: CreatePlayerHeader()) {
                             ForEach(guestTeam) { player in
-                                PlayerRow(playerItem: player, home: false, team: $guestTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
+                                PlayerRow(playerItem: player, home: false, team: $guestTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls, player: players.first(where: {$0.id == player.id})!)
                             }.onDelete { indexSet in
                                 guestTeam.remove(atOffsets: indexSet)
                             }

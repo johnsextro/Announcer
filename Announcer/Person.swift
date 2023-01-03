@@ -10,7 +10,7 @@ import Foundation
 struct Person: Identifiable {
     var fullName: String
     var jerseyNumber: String
-    let id = UUID()
+    var id: UUID
     var personalFouls: Int
     var edit: Bool
 }
