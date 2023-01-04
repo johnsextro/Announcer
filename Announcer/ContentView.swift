@@ -57,6 +57,7 @@ struct ContentView: View {
             } else if (player.team == guestSelection) {
                 guestTeam.append(Person(fullName: player.name ?? "missing", jerseyNumber: player.jersey!, id: player.id!, personalFouls: 0))
             }
+            activeQuarter = 0
         }
         homeTeam = homeTeam.sorted(using: teamSortOrder)
         guestTeam = guestTeam.sorted(using: teamSortOrder)
