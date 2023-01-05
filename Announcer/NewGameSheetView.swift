@@ -24,7 +24,7 @@ struct NewGameSheetView: View {
     @State private var year: String = ""
     @State private var mascot: String = ""
     
-    @Binding var mensGame: Bool
+    @Binding var isMensGame: Bool
     @Binding var teamFouls: [String: [Int]]
     @Binding var homeSelection: String!
     @Binding var guestSelection: String!
@@ -42,11 +42,11 @@ struct NewGameSheetView: View {
                         Text("Format")
                         Spacer().frame(width: 100)
                         List {
-                            Picker("Format", selection: $mensGame) {
+                            Picker("Format", selection: $isMensGame) {
                                 Text("Men").tag(true)
                                 Text("Women").tag(false)
                             }.pickerStyle(.segmented).frame(width: 400)
-                        }.onChange(of: self.mensGame) { newValue in
+                        }.onChange(of: self.isMensGame) { newValue in
                             if (newValue) {
                                 mensTeam = true
                                 teamFouls["home"] = [0,0,0]
@@ -73,7 +73,7 @@ struct NewGameSheetView: View {
                         }.frame(width: 550)
                     }
                     Spacer().frame(height: 60)
-                    Button("Load Teams") {
+                    Button("Start Game") {
                         dismiss()
                     }.buttonStyle(.borderedProminent)
                 }

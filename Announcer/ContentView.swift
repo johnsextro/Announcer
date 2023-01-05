@@ -67,7 +67,7 @@ struct ContentView: View {
         VStack() {
             Spacer().frame(height: 10)
                 .sheet(isPresented: $showingSheet, onDismiss: loadPlayers) {
-                    NewGameSheetView(mensGame: $isMensGame, teamFouls: $teamFouls, homeSelection: $homeSelection, guestSelection: $guestSelection)
+                    NewGameSheetView(isMensGame: $isMensGame, teamFouls: $teamFouls, homeSelection: $homeSelection, guestSelection: $guestSelection)
                 }
             Group {
                 Button("Reset Game") {
