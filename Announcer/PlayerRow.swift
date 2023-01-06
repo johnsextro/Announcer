@@ -13,7 +13,7 @@ struct PlayerRow : View {
     @State var playerItem: Person
     @State var player: Player
     @State var isHomeTeam: Bool
-    @State var isEditMode: Bool = false
+    @State private var isEditMode: Bool = false
     
     @Binding var team: [Person]
     @Binding var activeQuarter: Int

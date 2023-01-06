@@ -87,7 +87,7 @@ struct ContentView: View {
                     List {
                         Section(header: CreatePlayerHeader()) {
                             ForEach(homeTeam) { player in
-                                PlayerRow(playerItem: player, home: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls, player: players.first(where: {$0.id == player.id})!)
+                                PlayerRow(playerItem: player, player: players.first(where: {$0.id == player.id})!, isHomeTeam: true, team: $homeTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
                             }.onDelete { indexSet in
                                 homeTeam.remove(atOffsets: indexSet)
                             }
@@ -98,7 +98,7 @@ struct ContentView: View {
                     List {
                         Section(header: CreatePlayerHeader()) {
                             ForEach(guestTeam) { player in
-                                PlayerRow(playerItem: player, home: false, team: $guestTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls, player: players.first(where: {$0.id == player.id})!)
+                                PlayerRow(playerItem: player, player: players.first(where: {$0.id == player.id})!, isHomeTeam: false, team: $guestTeam, activeQuarter: $activeQuarter, teamFouls: $teamFouls)
                             }.onDelete { indexSet in
                                 guestTeam.remove(atOffsets: indexSet)
                             }
