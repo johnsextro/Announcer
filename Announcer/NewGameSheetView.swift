@@ -89,7 +89,7 @@ struct NewGameSheetView: View {
                             Text("Women").tag(false)
                         }.pickerStyle(.segmented).frame(width: 400)
                     }
-                    TextField("School Name", text: $schoolName).textFieldStyle(.roundedBorder).disableAutocorrection(true)
+                    TextField("School Name", text: $schoolName).textFieldStyle(.roundedBorder).disableAutocorrection(true).textInputAutocapitalization(.words)
                     TextField("Mascot", text: $mascot).textFieldStyle(.roundedBorder).disableAutocorrection(true)
                     TextField("Year", text: $year).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
                     Button("Save Team") {

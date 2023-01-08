@@ -23,7 +23,7 @@ struct AddPlayerView: View {
         DisclosureGroup("Add Player") {
             VStack (alignment: .leading) {
                 TextField("##", text: $newPlayerJersey).frame(width: 45).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
-                TextField("Full Name", text: $newPlayerFullname).textFieldStyle(.roundedBorder).disableAutocorrection(true)
+                TextField("Full Name", text: $newPlayerFullname).textFieldStyle(.roundedBorder).disableAutocorrection(true).textInputAutocapitalization(.words)
                 Button("Save") {
                     var nextNumber: String
                     switch newPlayerJersey {
