@@ -19,14 +19,32 @@ struct PlayerRow : View {
     @Binding var activeQuarter: Int
     @Binding var teamFouls: [String: [Int]]
 
+    private func isValueInRangeOfValidNumOfPersonalFouls(incValue: Int) -> Bool {
+        return (playerItem.personalFouls + incValue <= 5 && playerItem.personalFouls + incValue >= 0)
+    }
     
     private func foulEvent(incValue: Int) {
-        playerItem.personalFouls += incValue
-        if isHomeTeam {
-            teamFouls["home"]![activeQuarter] += incValue
-        } else {
-            teamFouls["guest"]![activeQuarter] += incValue
+        if (isValueInRangeOfValidNumOfPersonalFouls(incValue: incValue)) {
+            playerItem.personalFouls += incValue
+            if isHomeTeam {
+                teamFouls["home"]![activeQuarter] += incValue
+            } else {
+                teamFouls["guest"]![activeQuarter] += incValue
+            }
         }
+    }
+    
+    private func determineFoulColor(numOfFouls: Int) -> Color {
+        var foulColor: Color
+        switch numOfFouls {
+        case 3...4:
+            foulColor = .orange
+        case 5...99:
+            foulColor = .red
+        default:
+            foulColor = .black
+        }
+        return foulColor
     }
     
     var body: some View {
@@ -46,11 +64,11 @@ struct PlayerRow : View {
             } else {
                 Text(playerItem.jerseyNumber).frame(width: 45)
                 Text(playerItem.fullName).frame(minWidth: 100, idealWidth: 200, maxWidth: 400, alignment: .leading)
-                Image(systemName: "minus.square.fill").onTapGesture {
+                Image(systemName: "minus.square.fill").foregroundColor(.gray).onTapGesture {
                     foulEvent(incValue: -1)
                 }
-                Text(String(playerItem.personalFouls))
-                Image(systemName: "plus.square.fill").onTapGesture {
+                Text(String(playerItem.personalFouls)).foregroundColor(determineFoulColor(numOfFouls: Int(playerItem.personalFouls)))
+                Image(systemName: "plus.square.fill").foregroundColor(.gray).onTapGesture {
                     foulEvent(incValue: 1)
                 }
             }
