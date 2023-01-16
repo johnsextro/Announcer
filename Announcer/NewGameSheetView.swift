@@ -24,6 +24,7 @@ struct NewGameSheetView: View {
     @State private var year: String = ""
     @State private var mascot: String = ""
     
+    @Binding var isNFHSGame: Bool
     @Binding var isMensGame: Bool
     @Binding var teamFouls: [String: [Int]]
     @Binding var homeSelection: String!
@@ -37,23 +38,17 @@ struct NewGameSheetView: View {
                 Text("Game Setup").font(.title2)
                 Form {
                     VStack(alignment: .leading) {
-                        HStack {
-                            List {
-                                Picker("Format", selection: $isMensGame) {
-                                    Text("Men").tag(true)
-                                    Text("Women").tag(false)
-                                }.pickerStyle(.segmented).frame(width: 200)
-                            }.onChange(of: self.isMensGame) { newValue in
-                                if (newValue) {
-                                    mensTeam = true
-                                    teamFouls["home"] = [0,0,0]
-                                    teamFouls["guest"] = [0,0,0]
-                                } else {
-                                    mensTeam = false
-                                    teamFouls["home"] = [0,0,0,0,0]
-                                    teamFouls["guest"] = [0,0,0,0,0]
-                                }
-                            }
+                        List {
+                            Picker("NFHS", selection: $isNFHSGame) {
+                                Text("NFHS").tag(true)
+                                Text("NCAA").tag(false)
+                            }.pickerStyle(.segmented).frame(width: 200)
+                        }
+                        List {
+                            Picker("Format", selection: $isMensGame) {
+                                Text("Men").tag(true)
+                                Text("Women").tag(false)
+                            }.pickerStyle(.segmented).frame(width: 200)
                         }
                         List {
                             Picker("Select Home Team", selection: $homeSelection) {
@@ -70,6 +65,9 @@ struct NewGameSheetView: View {
                             }
                         }
                         Button("Start Game") {
+                            mensTeam = isMensGame
+                            teamFouls["home"] = Array(repeating: 0, count: isMensGame || isNFHSGame ? 3 : 5)
+                            teamFouls["guest"] = Array(repeating: 0, count: isMensGame || isNFHSGame ? 3 : 5)
                             dismiss()
                         }.buttonStyle(.borderedProminent)
                     }
@@ -118,11 +116,12 @@ struct NewGameSheetView: View {
 
 struct NewGameSheetView_Previews: PreviewProvider {
     @State private static var previewIsMensGame = true
+    @State private static var previewIsNFHSGame = false
     @State private static var previewTeamFouls: [String: [Int]] = ["home": [0,0,0]]
     @State private static var previewHomeSelection: String! = "Webster"
     @State private static var previewGuestSelection: String! = "Webster"
     
     static var previews: some View {
-        NewGameSheetView(isMensGame: $previewIsMensGame, teamFouls: $previewTeamFouls, homeSelection: $previewHomeSelection, guestSelection: $previewGuestSelection).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        NewGameSheetView(isNFHSGame: $previewIsNFHSGame, isMensGame: $previewIsMensGame, teamFouls: $previewTeamFouls, homeSelection: $previewHomeSelection, guestSelection: $previewGuestSelection).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
